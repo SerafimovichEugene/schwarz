@@ -63,7 +63,6 @@ export default class Overlay extends Component {
     }
 
     render() {
-        console.log(this.state);
         const overlayClasses = classNames({
             overlay: true,
             none: !this.props.show && !this.state.notifyFail && !this.state.notifyComplete,
