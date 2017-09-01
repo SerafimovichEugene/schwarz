@@ -1,10 +1,12 @@
 //types
 import { Application, Request, Response, NextFunction } from 'express';
 
+import { mongoose, connect, connection } from 'mongoose';
 import * as express from 'express';
 import { join } from 'path';
 import { config } from 'dotenv';
 import RouterConfiguration from './routes';
+import { configurePathToMLab } from '../utils/utils';
 
 //dotenv configuration:
 config();
@@ -33,12 +35,21 @@ class Server implements ServerInterface {
     private static instance: Server;
     constructor(public port: number) {
         this.app = express();
+        this.configureDataBase();
         this.configureServer();
         this.setRouting();
         this.runServer();
     }
     private setRouting(): void {
         this.app.use('/', RouterConfiguration.factory().router);
+    }
+    private configureDataBase(): void {
+        console.log('wat');
+        console.log('lol', configurePathToMLab());
+        // mongoose.Promise = Promise;
+        // connect(configurePathToMLab())
+        //     .then(() => console.log('succesfully connected to mlab'))
+        //     .catch(console.log);
     }
     private configureServer(): void {
         //static config:
@@ -54,9 +65,10 @@ class Server implements ServerInterface {
     }
     private runServer(): void {
         this.app.listen(this.port, () => {
-            console.log(`listen on ${this.port}`);
+            console.log(`listen on ${this.port} ll`);
         });
     }
 }
 let port: number = +process.env.PORT;
+console.warn('awt');
 Server.factory({port});

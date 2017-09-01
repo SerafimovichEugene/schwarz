@@ -1,5 +1,5 @@
 {
-  "name": "heat-map",
+  "name": "githubber",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -36,6 +36,7 @@
     "file-loader": "^0.11.2",
     "font-awesome": "^4.7.0",
     "fs": "0.0.1-security",
+    "mongoose": "^4.11.9",
     "node-sass": "^4.5.3",
     "pug": "^2.0.0-rc.3",
     "react": "^15.6.1",
