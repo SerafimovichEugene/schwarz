@@ -1,10 +1,14 @@
 //types
 import { Application, Request, Response, NextFunction } from 'express';
-
-import { mongoose, connect, connection } from 'mongoose';
+import { connect, connection } from 'mongoose';
 import * as express from 'express';
+import * as bodyParser from 'body-parser';
+import * as cookieParser from 'cookie-parser';
 import { join } from 'path';
 import { config } from 'dotenv';
+import * as esession from 'express-session';
+import { session, initialize, use, serializeUser, deserializeUser } from  'passport';
+import Auth from './Auth/Auth';
 import RouterConfiguration from './routes';
 import { configurePathToMLab } from '../utils/utils';
 
@@ -37,26 +41,51 @@ class Server implements ServerInterface {
         this.app = express();
         this.configureDataBase();
         this.configureServer();
+        this.configurePassport();
         this.setRouting();
         this.runServer();
+    }
+    private configurePassport(): void {
+        Auth.factory()._produce().forEach(strategy => {
+            if (strategy.strategyName) {
+                // console.log('USE', strategy);
+                use(strategy.strategyName, strategy.strategyBody);
+            } else {
+                use(strategy);
+            }
+        });
+        serializeUser((user, cb) => {
+            cb(null, user);
+        });
+        deserializeUser((user, cb) => {
+            cb(null, user);
+        });
     }
     private setRouting(): void {
         this.app.use('/', RouterConfiguration.factory().router);
     }
     private configureDataBase(): void {
-        console.log('wat');
-        console.log('lol', configurePathToMLab());
         // mongoose.Promise = Promise;
-        // connect(configurePathToMLab())
-        //     .then(() => console.log('succesfully connected to mlab'))
-        //     .catch(console.log);
+        connect(configurePathToMLab())
+            .then(() => console.log('succesfully connected to mlab'))
+            .catch(console.log);
     }
     private configureServer(): void {
+        this.app.use(bodyParser.json());
+        this.app.use(bodyParser.urlencoded({ extended: true }));
+        this.app.use(cookieParser());
         //static config:
-        this.app.use(express.static(join(__dirname, './../public')));
+        this.app.use(express.static(join(__dirname, '/../../public')));
         // view engine setup:
         this.app.set('view engine', 'pug');
-        this.app.set('views', __dirname + './../src/server/views');
+        this.app.set('views', __dirname + '/../../src/server/views');
+        this.app.use(esession({
+            secret: process.env.SESSION_SECRET,
+            saveUninitialized: true,
+            resave: true,
+        }));
+        this.app.use(initialize());
+        this.app.use(session());
         //error handler:
         this.app.use((err: any, req: Request, res: Response, next: NextFunction) => {
             err.status(404);
@@ -65,10 +94,9 @@ class Server implements ServerInterface {
     }
     private runServer(): void {
         this.app.listen(this.port, () => {
-            console.log(`listen on ${this.port} ll`);
+            console.log(`listen on ${this.port}`);
         });
     }
 }
 let port: number = +process.env.PORT;
-console.warn('awt');
 Server.factory({port});

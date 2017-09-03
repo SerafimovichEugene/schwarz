@@ -4,6 +4,8 @@ import { BrowserRouter, Switch, Route, Link, Redirect, withRouter } from 'react-
 import store from '../../../store/store';
 import SearchBar from '../../presentational/searchBar/seachBar';
 import Parser from '../../presentational/Parser/Parser';
+import Signup from '../../presentational/Signup/Signup';
+import Signin from '../../presentational/Signin/Signin.js';
 
 const Loc = ({location, match}) => {
     return (
@@ -30,6 +32,8 @@ export default class Root extends Component {
                             <Route exact path='/' component={SearchBar}/>
                             <Route exact path='/user/:id' component={WL} />
                             <Route path='/admin/parser' component={Parser}/>
+                            <Route path='/signup' component={Signup} />
+                            <Route path='/signin' component={Signin} />
                             <Route render={({location}) => <h2>{`no match for ${JSON.stringify(location)}`}</h2>} />
                         </Switch>
                     </div>

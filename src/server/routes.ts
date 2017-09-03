@@ -1,7 +1,7 @@
 //types
 import { Request, Response, Application, NextFunction, Router } from 'express';
-
 import * as express from 'express';
+import AuthRouter from './Routers/AuthRouter';
 import indexController from './Controllers/indexController';
 
 interface RouterConfigurationInterface {
@@ -25,6 +25,7 @@ export default class RouterConfiguration implements RouterConfigurationInterface
     }
 
     private configuration(): void {
+        this.router.use('/auth', AuthRouter.factory().router);
         this.router.get('*', indexController);
     }
 }
