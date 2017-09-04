@@ -71,8 +71,8 @@ class Server implements ServerInterface {
             .catch(console.log);
     }
     private configureServer(): void {
-        this.app.use(bodyParser.json());
-        this.app.use(bodyParser.urlencoded({ extended: true }));
+        this.app.use(bodyParser.json({limit: '50mb'}));
+        this.app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
         this.app.use(cookieParser());
         //static config:
         this.app.use(express.static(join(__dirname, '/../../public')));

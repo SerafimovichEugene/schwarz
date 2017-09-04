@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import XLSX from 'xlsx';
 import classNames from 'classnames';
+import { addProductsDocument, updateProducts } from '../../../services/products';
+import AdminPanel from '../AdminPanel/AdminPanel';
 import Overlay from './Overlay/Overlay';
 import DragAndDrop from './DragAndDrop/DragAndDrop';
 import Upload from './Upload/Upload';
@@ -21,7 +23,7 @@ export default class Parser extends Component {
 			isLoadingComplete: false,
         }
     }
-    _toJson = (workbook) => {
+    _toJson = async (workbook) => {
         const result = {};
         workbook.SheetNames.forEach((sheetName) => {
             const row = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
@@ -29,6 +31,8 @@ export default class Parser extends Component {
                 result[sheetName] = row;
             }
         });
+		await updateProducts(result);
+		await addProductsDocument(workbook);
         this.setState({
             wb: result,
 			isLoading: false,
@@ -38,7 +42,7 @@ export default class Parser extends Component {
 			this.setState({
 				isLoadingComplete: false,
 			});
-		}, 0)
+		}, 0);
         return result;
     }
 
@@ -99,17 +103,19 @@ export default class Parser extends Component {
             wrapper: true,
         });
         return (
-            <div className={wrapperClasses}>
-				<DragAndDrop parserHandleDrop={this.handleUpload}/>
-				<Upload handleChangeParser={this.handleUpload} />
-				<Overlay
-					show={this.state.isLoading}
-					fail={this.state.loadingFail}
-					complete={this.state.isLoadingComplete} >
-					{ this.state.isLoading ? 'Loading...' : 'fail to load' }
-				</Overlay>
-				<div>{JSON.stringify(this.state.wb)}</div>
-            </div>
+			<AdminPanel>
+				<div className={wrapperClasses}>
+					<DragAndDrop parserHandleDrop={this.handleUpload}/>
+					<Upload handleChangeParser={this.handleUpload} />
+					<Overlay
+						show={this.state.isLoading}
+						fail={this.state.loadingFail}
+						complete={this.state.isLoadingComplete} >
+						{ this.state.isLoading ? 'Loading...' : 'fail to load' }
+					</Overlay>
+					<div>{JSON.stringify(this.state.wb)}</div>
+				</div>
+			</AdminPanel>
         )
     }
 }

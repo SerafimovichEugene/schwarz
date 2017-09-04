@@ -1,7 +1,17 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
 const passport_1 = require("passport");
+const jwt_simple_1 = require("jwt-simple");
+const User_1 = require("../models/User");
 const Auth_1 = require("../Auth/Auth");
 class AuthRouter {
     static factory() {
@@ -28,25 +38,51 @@ class AuthRouter {
         const authRedirect = (req, res, next) => {
             console.log('FROM CALLBACK', req.user);
             console.log('SESSION', req.session);
-            const returnUrl = '/';
-            res.redirect(returnUrl);
+            addJWTTokenForAdmin(req, res, next);
         };
         const logOut = (req, res) => {
             console.log('LOGOUT');
             req.logout();
+            res.clearCookie('token');
             res.redirect('/');
+        };
+        const verify = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const { token } = req.params;
+            let incomeUser = jwt_simple_1.decode(token, process.env.JWT_SECRET);
+            let dbuser = null;
+            try {
+                dbuser = yield User_1.default.findOneAndUpdate({ email: incomeUser.email }, { isVerifed: true });
+                res.redirect('/');
+            }
+            catch (error) {
+                console.log(error);
+                res.redirect('/');
+            }
+        });
+        const addJWTTokenForAdmin = (req, res, next) => {
+            if (req.user.isAdmin) {
+                const token = jwt_simple_1.encode(req.user, process.env.JWT_SECRET_ADMIN);
+                res.cookie('token', token);
+            }
+            if (req.cookies.fromUrl) {
+                res.redirect(req.cookies.fromUrl);
+            }
+            else {
+                res.redirect('/');
+            }
         };
         this.router.get('/logout', logOut);
         this.router.get('/:provider', authenticateMiddle);
         this.router.get('/:provider/callback', authenticateMiddle, authRedirect);
+        this.router.get('/verify/:token', verify);
         this.router.post('/signup', passport_1.authenticate('local-signup', {
-            successRedirect: '/',
+            // successRedirect : '/',
             failureRedirect: '/signup'
-        }));
+        }), addJWTTokenForAdmin);
         this.router.post('/signin', passport_1.authenticate('local-signin', {
-            successRedirect: '/',
+            // successRedirect : '/',
             failureRedirect: '/signin'
-        }));
+        }), addJWTTokenForAdmin);
     }
 }
 exports.default = AuthRouter;

@@ -2,6 +2,8 @@
 import { Request, Response, Application, NextFunction, Router } from 'express';
 import * as express from 'express';
 import { authenticate } from 'passport';
+import { decode, encode } from 'jwt-simple';
+import User from '../models/User';
 import Auth from '../Auth/Auth';
 
 
@@ -37,24 +39,50 @@ export default class AuthRouter implements AuthRouterInterface {
         const authRedirect = (req, res, next) => {
             console.log('FROM CALLBACK', req.user);
             console.log('SESSION', req.session);
-            const returnUrl = '/';
-            res.redirect(returnUrl);
+            addJWTTokenForAdmin(req, res, next);
         };
         const logOut = (req, res) => {
             console.log('LOGOUT');
             req.logout();
+            res.clearCookie('token');
             res.redirect('/');
+        };
+        const verify = async (req, res) => {
+            const { token } = req.params;
+            let incomeUser = decode(token, process.env.JWT_SECRET);
+            let dbuser = null;
+            try {
+                dbuser = await User.findOneAndUpdate(
+                    { email: incomeUser.email},
+                    { isVerifed: true });
+                res.redirect('/');
+            } catch (error) {
+                console.log(error);
+                res.redirect('/');
+            }
+        };
+        const addJWTTokenForAdmin = (req, res, next) => {
+            if (req.user.isAdmin) {
+                const token = encode(req.user, process.env.JWT_SECRET_ADMIN);
+                res.cookie('token', token);
+            }
+            if (req.cookies.fromUrl) {
+                   res.redirect(req.cookies.fromUrl);
+               } else {
+                   res.redirect('/');
+               }
         };
         this.router.get('/logout', logOut);
         this.router.get('/:provider', authenticateMiddle);
         this.router.get('/:provider/callback', authenticateMiddle, authRedirect);
+        this.router.get('/verify/:token', verify);
         this.router.post('/signup', authenticate('local-signup', {
-            successRedirect : '/',
+            // successRedirect : '/',
             failureRedirect : '/signup'
-        }));
+        }), addJWTTokenForAdmin);
         this.router.post('/signin', authenticate('local-signin', {
-            successRedirect : '/',
+            // successRedirect : '/',
             failureRedirect : '/signin'
-        }));
+        }), addJWTTokenForAdmin);
     }
 }

@@ -13,8 +13,10 @@ const passport_facebook_1 = require("passport-facebook");
 const passport_google_oauth2_1 = require("passport-google-oauth2");
 const passport_local_1 = require("passport-local");
 const passport_vkontakte_1 = require("passport-vkontakte");
+const jwt_simple_1 = require("jwt-simple");
 const utils_1 = require("../../utils/utils");
 const User_1 = require("../models/User");
+const Mailer_1 = require("../Mailer/Mailer");
 class Auth {
     static factory() {
         if (!this.instance) {
@@ -87,6 +89,9 @@ class Auth {
                     user.photo = '/avatar.png';
                     user.login = email;
                     yield user.save();
+                    const url = '/auth/verify';
+                    const token = jwt_simple_1.encode(user, process.env.JWT_SECRET);
+                    yield new Mailer_1.default().sendEmail(Mailer_1.default.from, 'verefy your email', email, Mailer_1.default.generateTemplate(url, token));
                     return done(null, user);
                 }
             }

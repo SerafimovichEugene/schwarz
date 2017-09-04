@@ -6,6 +6,7 @@ import SearchBar from '../../presentational/searchBar/seachBar';
 import Parser from '../../presentational/Parser/Parser';
 import Signup from '../../presentational/Signup/Signup';
 import Signin from '../../presentational/Signin/Signin.js';
+import AdminPanel from '../../presentational/AdminPanel/AdminPanel';
 
 const Loc = ({location, match}) => {
     return (
@@ -31,6 +32,7 @@ export default class Root extends Component {
                         <Switch>
                             <Route exact path='/' component={SearchBar}/>
                             <Route exact path='/user/:id' component={WL} />
+                            <Route exact path = '/admin' component={ AdminPanel } />
                             <Route path='/admin/parser' component={Parser}/>
                             <Route path='/signup' component={Signup} />
                             <Route path='/signin' component={Signin} />

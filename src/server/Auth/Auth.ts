@@ -3,8 +3,10 @@ import { Strategy as FacebookStategy } from 'passport-facebook';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as VkStrategy } from 'passport-vkontakte';
+import { encode } from 'jwt-simple';
 import { configStrategyFactory } from '../../utils/utils';
 import User from '../models/User';
+import Mailer from '../Mailer/Mailer';
 
 export default class Auth {
     public static factory(): Auth {
@@ -76,6 +78,9 @@ export default class Auth {
                     user.photo = '/avatar.png';
                     user.login = email;
                     await user.save();
+                    const url = '/auth/verify';
+                    const token = encode(user, process.env.JWT_SECRET);
+                    await new Mailer().sendEmail(Mailer.from, 'verefy your email', email, Mailer.generateTemplate(url, token));
                     return done(null, user);
                 }
             } catch (error) {
