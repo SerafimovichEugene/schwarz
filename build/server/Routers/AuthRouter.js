@@ -36,14 +36,17 @@ class AuthRouter {
             authenticator(req, res, next);
         };
         const authRedirect = (req, res, next) => {
-            console.log('FROM CALLBACK', req.user);
-            console.log('SESSION', req.session);
+            // console.log('FROM CALLBACK', req.user);
+            // console.log('SESSION', req.session);
+            if (req.originalUrl.indexOf('callback')) {
+                res.cookie('canFetchUser', true);
+            }
             addJWTTokenForAdmin(req, res, next);
         };
         const logOut = (req, res) => {
-            console.log('LOGOUT');
             req.logout();
             res.clearCookie('token');
+            res.clearCookie('canFetchUser');
             res.redirect('/');
         };
         const verify = (req, res) => __awaiter(this, void 0, void 0, function* () {
@@ -78,11 +81,17 @@ class AuthRouter {
         this.router.post('/signup', passport_1.authenticate('local-signup', {
             // successRedirect : '/',
             failureRedirect: '/signup'
-        }), addJWTTokenForAdmin);
+        }), (req, res, next) => {
+            res.cookie('canFetchUser', true);
+            next();
+        }, addJWTTokenForAdmin);
         this.router.post('/signin', passport_1.authenticate('local-signin', {
             // successRedirect : '/',
             failureRedirect: '/signin'
-        }), addJWTTokenForAdmin);
+        }), (req, res, next) => {
+            res.cookie('canFetchUser', true);
+            next();
+        }, addJWTTokenForAdmin);
     }
 }
 exports.default = AuthRouter;

@@ -6,7 +6,7 @@ import Drawer from 'material-ui/Drawer';
 import Divider from 'material-ui/Divider';
 import AppBar from 'material-ui/AppBar';
 import propTypes from 'prop-types';
-import UserBar from '../UserBar/UserBar';
+import UserBar from '../../containers/UserBarContainer/UserBarContainer';
 
 //configurate material-ui ---------
 import injectTapEventPlugin from 'react-tap-event-plugin';

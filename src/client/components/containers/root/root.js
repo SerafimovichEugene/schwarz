@@ -2,23 +2,12 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Switch, Route, Link, Redirect, withRouter } from 'react-router-dom';
 import store from '../../../store/store';
-import SearchBar from '../../presentational/searchBar/seachBar';
+import MainAppComponent from '../MainAppComponentContainer/MainAppComponentContainer';
 import Parser from '../../presentational/Parser/Parser';
 import Signup from '../../presentational/Signup/Signup';
 import Signin from '../../presentational/Signin/Signin.js';
 import AdminPanel from '../../presentational/AdminPanel/AdminPanel';
-
-const Loc = ({location, match}) => {
-    return (
-        <div>
-            <SearchBar/>
-            <h2>
-                {`ID: ${JSON.stringify(location)}, ${JSON.stringify(match)}`}
-            </h2>
-        </div>
-    )
-};
-const WL = withRouter(Loc);
+import './root.scss';
 
 export default class Root extends Component {
     constructor(props) {
@@ -30,9 +19,9 @@ export default class Root extends Component {
                 <BrowserRouter>
                     <div>
                         <Switch>
-                            <Route exact path='/' component={SearchBar}/>
-                            <Route exact path='/user/:id' component={WL} />
-                            <Route exact path = '/admin' component={ AdminPanel } />
+                            <Route exact path='/' component={MainAppComponent}/>
+                            {/* <Route exact path = '/admin' component={ AdminPanel } /> */}
+                            <Route exact path = '/admin' render={() => store.getState().get('user').get('user').get('login') ? (<AdminPanel/>) : (<Redirect to='/signin'/>)} />
                             <Route path='/admin/parser' component={Parser}/>
                             <Route path='/signup' component={Signup} />
                             <Route path='/signin' component={Signin} />

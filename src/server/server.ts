@@ -7,6 +7,7 @@ import * as cookieParser from 'cookie-parser';
 import { join } from 'path';
 import { config } from 'dotenv';
 import * as esession from 'express-session';
+import * as MongoStore from 'connect-mongo';
 import { session, initialize, use, serializeUser, deserializeUser } from  'passport';
 import Auth from './Auth/Auth';
 import RouterConfiguration from './routes';
@@ -37,6 +38,7 @@ class Server implements ServerInterface {
     }
     public app: Application;
     private static instance: Server;
+    private static MongoStore = MongoStore(esession);
     constructor(public port: number) {
         this.app = express();
         this.configureDataBase();
@@ -80,9 +82,12 @@ class Server implements ServerInterface {
         this.app.set('view engine', 'pug');
         this.app.set('views', __dirname + '/../../src/server/views');
         this.app.use(esession({
-            secret: process.env.SESSION_SECRET,
-            saveUninitialized: true,
+         	secret: process.env.SESSION_SECRET,
             resave: true,
+        	saveUninitialized: true,
+          	store: new Server.MongoStore({
+          	  mongooseConnection: connection
+         	})
         }));
         this.app.use(initialize());
         this.app.use(session());

@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 const path_1 = require("path");
 const dotenv_1 = require("dotenv");
 const esession = require("express-session");
+const MongoStore = require("connect-mongo");
 const passport_1 = require("passport");
 const Auth_1 = require("./Auth/Auth");
 const routes_1 = require("./routes");
@@ -70,8 +71,11 @@ class Server {
         this.app.set('views', __dirname + '/../../src/server/views');
         this.app.use(esession({
             secret: process.env.SESSION_SECRET,
-            saveUninitialized: true,
             resave: true,
+            saveUninitialized: true,
+            store: new Server.MongoStore({
+                mongooseConnection: mongoose_1.connection
+            })
         }));
         this.app.use(passport_1.initialize());
         this.app.use(passport_1.session());
@@ -87,5 +91,6 @@ class Server {
         });
     }
 }
+Server.MongoStore = MongoStore(esession);
 let port = +process.env.PORT;
 Server.factory({ port });

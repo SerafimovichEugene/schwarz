@@ -1,8 +1,12 @@
 import { createStore, applyMiddleware } from 'redux';
+import { createEpicMiddleware } from 'redux-observable';
+import logger from 'redux-logger'
+import rootEpic from '../epics/rootEpic';
+import mainReducer from '../reducers/mainReducer';
 
-import reducer from '../reducers/combineReducer';
+const epicMiddleware = createEpicMiddleware(rootEpic);
 
-const store = createStore(reducer);
+const store = createStore(mainReducer, applyMiddleware(epicMiddleware, logger));
 
 Object.defineProperty(window, 'state', {
     get() {
