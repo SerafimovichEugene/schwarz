@@ -1,4 +1,4 @@
 node_modules
 .DS_Store
 build/
-bundle.min.js
+public/js/bundle.min.js
