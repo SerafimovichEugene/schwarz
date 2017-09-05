@@ -77,7 +77,7 @@ class Server {
         this.app.use(passport_1.session());
         //error handler:
         this.app.use((err, req, res, next) => {
-            err.status(404);
+            res.status(404);
             next(err);
         });
     }

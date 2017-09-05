@@ -88,7 +88,7 @@ class Server implements ServerInterface {
         this.app.use(session());
         //error handler:
         this.app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-            err.status(404);
+            res.status(404);
             next(err);
         });
     }
