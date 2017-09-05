@@ -3,9 +3,15 @@
 	-moz-border-radius:5px;
 	-webkit-border-radius:5px;
 	border-radius:5px;
-	padding:25px;
+	// padding:25px;
 	text-align:center;
-	font:20pt bold,"Vollkorn";color:#bbb
+	font:20pt bold,"Vollkorn";
+	color:#bbb;
+	width: 25%;
+	min-height: 350px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .default {
