@@ -18,7 +18,7 @@ export default class Upload extends Component {
             'custom-file-upload': true,
         });
         return (
-            <div>
+            <div className='upload-wrapper'>
                 <label
                     htmlFor="xlsxfile"
                     className={uploadClasses} >

@@ -6,4 +6,17 @@ input[type="file"] {
     display: inline-block;
     padding: 6px 12px;
     cursor: pointer;
+    min-height: inherit;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    span {
+        font-size: 10vw;
+    }
+}
+
+.upload-wrapper {
+    width: 25%;
+    min-height: 350px;
 }
