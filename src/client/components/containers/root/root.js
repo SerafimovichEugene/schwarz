@@ -7,6 +7,7 @@ import App from '../App/App';
 import CantAcces from '../../presentational/CantAcces/CantAcces';
 import MainAppComponent from '../MainAppComponentContainer/MainAppComponentContainer';
 import Parser from '../../presentational/Parser/Parser';
+import Catalog from '../../containers/CatalogContainer/CatalogContainer';
 import Signup from '../../presentational/Signup/Signup';
 import Signin from '../../presentational/Signin/Signin.js';
 import AdminPanel from '../AdminPanelContainer/AdminPanelContainer';
@@ -23,7 +24,7 @@ export default class Root extends Component {
                     <div>
                         <Switch>
                             <Route exact path='/' component={MainAppComponent}/>
-                            {/* <Route path='/catalog' component={Catalog}/> */}
+                            <Route path='/catalog' component={Catalog}/>
                             <Route path='/admin' render={({location}) => {
                                 const { canFetchUser, token } =  parse(document.cookie);
                                 const isAdmin = store.getState().get('user').get('user').get('isAdmin');
