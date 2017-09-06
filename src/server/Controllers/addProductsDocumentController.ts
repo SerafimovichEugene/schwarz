@@ -20,6 +20,7 @@ const addProductsDocumentController = async (req, res, next) => {
             ModifiedDate,
             SheetNames,
             numOfSheets: Worksheets,
+            downloadedDate: new Date().toString(),
         };
         let productsDocument = new ProductsDocument(documentParams);
         await productsDocument.save();

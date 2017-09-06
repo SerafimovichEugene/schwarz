@@ -28,6 +28,10 @@ const productsDocumentSchema = new Schema({
     numOfSheets: {
         type: Number,
         required: true
+    },
+    downloadedDate: {
+        type: String,
+        required: false
     }
 });
 

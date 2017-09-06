@@ -23,7 +23,8 @@ export default class Root extends Component {
                     <div>
                         <Switch>
                             <Route exact path='/' component={MainAppComponent}/>
-                            <Route path = '/admin' render={({location}) => {
+                            {/* <Route path='/catalog' component={Catalog}/> */}
+                            <Route path='/admin' render={({location}) => {
                                 const { canFetchUser, token } =  parse(document.cookie);
                                 const isAdmin = store.getState().get('user').get('user').get('isAdmin');
                                 if(canFetchUser ) {
