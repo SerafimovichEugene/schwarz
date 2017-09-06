@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import XLSX from 'xlsx';
 import classNames from 'classnames';
 import { addProductsDocument, updateProducts } from '../../../services/products';
-import AdminPanel from '../AdminPanel/AdminPanel';
+import AdminPanel from '../../containers/AdminPanelContainer/AdminPanelContainer';
 import Overlay from './Overlay/Overlay';
 import DragAndDrop from './DragAndDrop/DragAndDrop';
 import Upload from './Upload/Upload';

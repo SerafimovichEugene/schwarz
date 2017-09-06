@@ -6,6 +6,7 @@ import Drawer from 'material-ui/Drawer';
 import Divider from 'material-ui/Divider';
 import AppBar from 'material-ui/AppBar';
 import propTypes from 'prop-types';
+import { parse } from 'cookie';
 import UserBar from '../../containers/UserBarContainer/UserBarContainer';
 
 //configurate material-ui ---------
@@ -25,6 +26,14 @@ export default class AdminPanel extends Component {
         this.state = {
             isDrawerOpen: false,
         };
+    }
+
+    componentWillMount() {
+        const { fetchUser, user } = this.props;
+        const { canFetchUser } =  parse(document.cookie);
+        if(!user.login && canFetchUser) {
+            fetchUser();
+        }
     }
 
     handleMenuTouch = () => {
