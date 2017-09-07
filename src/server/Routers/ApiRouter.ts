@@ -1,6 +1,8 @@
 //types
 import { Request, Response, Application, NextFunction, Router } from 'express';
 import MiddlewareFactory from '../Middleware/MiddlewareFactory';
+import getProductsController from '../Controllers/getProductsController';
+import getDocumentsController from '../Controllers/getDocumentsController';
 import updateProductsController from '../Controllers/updateProductsController';
 import addProductsDocumentController from '../Controllers/addProductsDocumentController';
 import * as express from 'express';
@@ -34,6 +36,8 @@ export default class ApiRouter implements ApiRouterInterface {
                 res.status(200).json({ 'message': 'you must sign in first' }).end();
             }
         });
+        this.router.get('/products', getProductsController);
+        this.router.get('/documents', getDocumentsController);
         this.router.post('/products', guardMiddleware, updateProductsController);
         this.router.post('/documents', guardMiddleware, addProductsDocumentController);
     }

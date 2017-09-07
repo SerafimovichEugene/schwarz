@@ -35,6 +35,7 @@ export default class MainAppComponent extends Component {
         return (
             <div>
                 <header>
+                    <Link to='/catalog'>Catalog</Link>
                     {this.renderUserBar(user)}
                 </header>
                 {this.props.children}
