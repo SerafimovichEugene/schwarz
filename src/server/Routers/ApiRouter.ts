@@ -4,6 +4,7 @@ import MiddlewareFactory from '../Middleware/MiddlewareFactory';
 import getProductsController from '../Controllers/getProductsController';
 import getDocumentsController from '../Controllers/getDocumentsController';
 import updateProductsController from '../Controllers/updateProductsController';
+import getDistinctTypesController from '../Controllers/getDistinctTypesController'
 import addProductsDocumentController from '../Controllers/addProductsDocumentController';
 import * as express from 'express';
 
@@ -38,6 +39,7 @@ export default class ApiRouter implements ApiRouterInterface {
         });
         this.router.get('/products', getProductsController);
         this.router.get('/documents', getDocumentsController);
+        this.router.get('/distinct', getDistinctTypesController);
         this.router.post('/products', guardMiddleware, updateProductsController);
         this.router.post('/documents', guardMiddleware, addProductsDocumentController);
     }

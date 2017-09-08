@@ -9,17 +9,7 @@ import propTypes from 'prop-types';
 import { parse } from 'cookie';
 import UserBar from '../../containers/UserBarContainer/UserBarContainer';
 
-//configurate material-ui ---------
-import injectTapEventPlugin from 'react-tap-event-plugin';
-import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-injectTapEventPlugin();
-//---------------------------------
-
 export default class AdminPanel extends Component {
-    getChildContext() {
-        return { muiTheme: getMuiTheme(baseTheme) };
-    }
 
     constructor(props) {
         super(props);
@@ -82,7 +72,3 @@ export default class AdminPanel extends Component {
         )
     }
 }
-
-AdminPanel.childContextTypes = {
-    muiTheme: propTypes.object.isRequired,
-};
