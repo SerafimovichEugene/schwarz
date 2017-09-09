@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import FontAwesome from 'react-fontawesome';
 import classNames from 'classnames';
 import './Upload.scss';
+
 export default class Upload extends Component {
+
+    static propTypes = {
+        handleChangeParser: PropTypes.func.isRequired,
+    }
+
     constructor(props) {
         super(props);
     }
 
-
-    handleChange = (e) => {
+    handleChange(e) {
         this.props.handleChangeParser(e, 'change');
         e.target.value = null;
     }

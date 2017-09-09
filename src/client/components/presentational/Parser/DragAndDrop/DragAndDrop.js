@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 import './DragAndDrop.scss';
+
 export default class DragAndDrop extends Component {
+
+    static propTypes = {
+        parserHandleDrop: PropTypes.func.isRequired,
+    }
+
     constructor(props) {
         super(props);
         this.state = {
@@ -52,7 +59,8 @@ export default class DragAndDrop extends Component {
                 onDragOver={this.handleDragOver}
                 onDragLeave={this.handleDragLeave}
                 onDrop={this.handleDrop}
-                >Drop .xlsx file here</div>
+                >Drop .xlsx file here
+            </div>
         )
     }
 }
