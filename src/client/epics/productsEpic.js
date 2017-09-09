@@ -11,6 +11,6 @@ const { API_BASE_URL } = config;
 export const fetchProductsEpic = action$ =>
     action$.ofType(FETCH_PRODUCTS)
         .mergeMap(action =>
-            ajax.getJSON(`${API_BASE_URL}/products`)
+            ajax.getJSON(`${API_BASE_URL}/products${action.query}`)
                 .map(response => fetchProductsComplete(response))
         );

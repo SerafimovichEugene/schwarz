@@ -47,3 +47,20 @@ export const configStrategyFactory = (type): object => {
     }
     return configuration;
 };
+
+
+export const parseQuery = (querystring) => {
+  // remove any preceding url and split
+  if (querystring.indexOf('?') < 0) {
+      return null;
+  }
+  querystring = querystring.substring(querystring.indexOf('?') + 1).split('&');
+  var params = {}, pair, d = decodeURIComponent;
+  // march and parse
+  for (var i = querystring.length - 1; i >= 0; i--) {
+    pair = querystring[i].split('=');
+    params[d(pair[0])] = d(pair[1] || '');
+  }
+
+  return params;
+};
