@@ -12,7 +12,7 @@ export default class CantAcces extends Component {
     redirectAfterDelay = (delay) => {
         setTimeout(() => {
             this.setState({
-                canRedirect: true
+                canRedirect: true,
             });
             // window.location.href = '/';
         }, delay);

@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import './UserBar.scss';
 
 export default class UserBar extends Component {
+
+    static propTypes = {        
+        user: PropTypes.any.isRequired,        
+    }
+
     constructor(props) {
         super(props);
     }

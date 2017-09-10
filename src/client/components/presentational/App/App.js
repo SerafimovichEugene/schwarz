@@ -1,8 +1,18 @@
 import React, { Component } from 'react';
 import { parse } from 'cookie';
-
+import PropTypes from 'prop-types';
 
 export default class App extends Component {
+
+    static propTypes = {
+        fetchUser: PropTypes.any.isRequired,
+        user: PropTypes.any.isRequired,
+        children: PropTypes.oneOfType([
+            PropTypes.arrayOf(PropTypes.node),
+            PropTypes.node,
+        ]),
+    }
+
     constructor(props) {
         super(props);
     }

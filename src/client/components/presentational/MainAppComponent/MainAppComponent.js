@@ -1,11 +1,22 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { parse } from 'cookie';
-import classNames from 'classnames';
+// import classNames from 'classnames';
 import UserBar from '../../containers/UserBarContainer/UserBarContainer';
 import './MainAppComponent.scss';
 
 export default class MainAppComponent extends Component {
+
+    static propTypes = {
+        fetchUser: PropTypes.any.isRequired,
+        user: PropTypes.any.isRequired,
+        children: PropTypes.oneOfType([
+            PropTypes.arrayOf(PropTypes.node),
+            PropTypes.node,
+        ]),
+    }
+
     constructor(props) {
         super(props);
     }
@@ -20,14 +31,13 @@ export default class MainAppComponent extends Component {
     renderUserBar = (user) => {
         if(user.login) {
             return  <UserBar />;
-        } else {
-            return (
-                <div className='links'>
-                    <Link to='/signup'>Registration</Link>
-                    <Link to='/signin'>Sign in</Link>
-                </div>
-            )
-        }
+        } 
+        return (
+            <div className='links'>
+                <Link to='/signup'>Registration</Link>
+                <Link to='/signin'>Sign in</Link>
+            </div>
+        )        
     }
 
     render() {
