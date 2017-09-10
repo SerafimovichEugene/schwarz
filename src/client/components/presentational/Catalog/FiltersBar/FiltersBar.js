@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import {List, ListItem} from 'material-ui/List';
+// import DropDownMenu from 'material-ui/DropDownMenu';
+// import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
 import CircularProgress from 'material-ui/CircularProgress';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import { getDistinctProductTypes } from '../../../../services/products';
-import DropDownMenu from 'material-ui/DropDownMenu';
-import MenuItem from 'material-ui/MenuItem';
 import './FiltersBar.scss';
 
 const styles = {
@@ -30,23 +30,31 @@ export default class FiltersBar extends Component {
             console.log(distinct);
             this.setState({
                 distinct,
-                isDistinctLoading: false
+                isDistinctLoading: false,
             })
         })
     }
 
 
     produceTypes = () => {
-        if(this.state.isDistinctLoading) {
-            return [<CircularProgress key={1} size={80} />]
-        } else {
+        if(!this.state.isDistinctLoading) {
             return this.state.distinct.map((type, i) => {
                 return <ListItem
-                            key={i}
-                            primaryText={type}
-                 />
+                    key={i}
+                    primaryText={type}
+                />
             })
-        }
+        }                
+    }
+
+    isInProgress = () => {
+        if(this.state.isDistinctLoading) {
+            return (
+                <div className='circular-progress-wrapper'>
+                    <CircularProgress key={1} size={80} thickness={5}/>
+                </div>
+            );            
+        } 
     }
 
 
@@ -108,15 +116,16 @@ export default class FiltersBar extends Component {
                         }
 
                     />
+                    {this.isInProgress()}                    
                     <ListItem
                         primaryText='Product type'
                         initiallyOpen={true}
                         primaryTogglesNestedList={true}
                         nestedItems={
                             // [
-                                // <div key={1}>
-                                    this.produceTypes()
-                                // </div>
+                            // <div key={1}>
+                            this.produceTypes()
+                            // </div>
                             // ]
                         }
                     />
