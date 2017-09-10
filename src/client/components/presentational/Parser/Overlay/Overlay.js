@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
 import FontAwesome from 'react-fontawesome';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 import './Overlay.scss';
 
 export default class Overlay extends Component {
+
+    static propTypes = {
+        fail: PropTypes.bool.isRequired,
+        complete: PropTypes.bool.isRequired,
+        show: PropTypes.bool.isRequired,
+    }
+
     constructor(props) {
         super(props);
         this.state = {
@@ -81,3 +89,4 @@ export default class Overlay extends Component {
         )
     }
 }
+
