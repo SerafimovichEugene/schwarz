@@ -23,7 +23,7 @@ export default class Parser extends Component {
             isLoadingComplete: false,
         }
     }
-    async _toJson(workbook) {
+    _toJson = async (workbook) => {
         const result = {};
         workbook.SheetNames.forEach((sheetName) => {
             const row = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
@@ -46,7 +46,7 @@ export default class Parser extends Component {
         return result;
     }
 
-    _load(files) {
+    _load = (files) => {
         for(let i = 0, f = files[i]; i !== files.length; ++i) {
             const reader = new FileReader();
             reader.onprogress = () => {
@@ -82,7 +82,7 @@ export default class Parser extends Component {
         }
     }
 
-    handleUpload(e, type) {
+    handleUpload = (e, type) => {
         e.stopPropagation();
         e.preventDefault();
         this.setState({

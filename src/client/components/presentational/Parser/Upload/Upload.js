@@ -14,7 +14,7 @@ export default class Upload extends Component {
         super(props);
     }
 
-    handleChange(e) {
+    handleChange = (e) => {
         this.props.handleChangeParser(e, 'change');
         e.target.value = null;
     }
