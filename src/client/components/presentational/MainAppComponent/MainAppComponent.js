@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { parse } from 'cookie';
 // import classNames from 'classnames';
-import UserBar from '../../containers/UserBarContainer/UserBarContainer';
+import NavBar from '../../containers/NavBarContainer/NavBarContainer';
 import './MainAppComponent.scss';
 
 export default class MainAppComponent extends Component {
@@ -28,26 +28,15 @@ export default class MainAppComponent extends Component {
         }
     }
 
-    renderUserBar = (user) => {
-        if(user.login) {
-            return  <UserBar />;
-        } 
-        return (
-            <div className='links'>
-                <Link to='/signup'>Registration</Link>
-                <Link to='/signin'>Sign in</Link>
-            </div>
-        )        
-    }
-
     render() {
-        const { user } = this.props;
+        // const { user } = this.props;
         return (
             <div>
-                <header>
+                <NavBar />
+                {/* <header>
                     <Link to='/catalog'>Catalog</Link>
                     {this.renderUserBar(user)}
-                </header>
+                </header> */}
                 {this.props.children}
                 <footer>footer</footer>
             </div>

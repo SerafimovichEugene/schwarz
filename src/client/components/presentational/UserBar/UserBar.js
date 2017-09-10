@@ -29,7 +29,6 @@ export default class UserBar extends Component {
         //     none: !user.login,
         // });
         return (
-            // <div className={userBarClasses}>
             <div className='userBar'>
                 <p>{user.login}</p>
                 <img src={user.photo} className='avatar'/>
