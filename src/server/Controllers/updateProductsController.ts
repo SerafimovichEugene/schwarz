@@ -21,7 +21,7 @@ const updateProductsController = async (req, res, next) => {
                     articulCode: product['Код артикула'],
                     status: product['Статус'],
                     productType: product['Тип товаров'],
-                    price: product['Цена'],
+                    price: +product['Цена'],
                     index: i + 1,
                 };
                 try {

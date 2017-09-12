@@ -64,3 +64,39 @@ export const parseQuery = (querystring) => {
 
   return params;
 };
+
+
+
+export const updateQuery = (query, type, chunk) => {
+    let regexp;
+    let result;
+    switch (type) {
+        case 'page':
+            regexp = /page=\d{0,}/gi;
+            break;
+        case 'currency':
+            regexp = /currency=[A-Z]{3,}/gi;
+            break;
+        case 'priceFrom':
+            regexp = /priceFrom=\d{0,}/gi;
+            break;
+        case 'priceTo':
+            regexp = /priceTo=(\d|[A-Za-z]){0,}/gi;
+            break;
+        case 'productType':
+            const startIndex = query.indexOf(type);
+            const endIndex = query.indexOf('&', startIndex);
+            result = endIndex !== -1 ?
+                query.slice(0, startIndex).concat(chunk).concat(query.slice(endIndex)) :
+                query.slice(0, startIndex).concat(chunk);
+            break;
+    }
+    if (query.indexOf(type) < 0) {
+        result = query.concat(`&${chunk}`);
+    } else {
+        if (regexp) {
+            result = query.replace(regexp, chunk);
+        }
+    }
+    return result;
+};

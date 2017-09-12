@@ -34,9 +34,7 @@ export default class Root extends Component {
                     <div>
                         <Switch>
                             <Route exact path='/' component={MainAppComponent}/>
-                            <Route path='/catalog' render={({location}) => {
-                                return <Catalog query={location.search} />
-                            }}/>
+                            <Route path='/catalog' render={withRouter(Catalog)}/>
                             <Route path='/admin' render={({location}) => {
                                 const { canFetchUser, token } =  parse(document.cookie);
                                 const isAdmin = store.getState().get('user').get('user').get('isAdmin');
