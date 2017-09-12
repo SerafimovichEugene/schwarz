@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Pagination from 'material-ui-pagination';
 import Card from './Card/Card';
 import './CardList.scss';
 
@@ -16,20 +15,6 @@ export default class CardList extends Component {
         }
     }
 
-    calculateHowMuchToDisplay = () => {
-        let { pages } = this.props;
-        if(pages <= 1) return 0;
-        if(pages <= 15) return pages;
-        else return 15;
-    }
-
-    handleChange = (page) => {
-        // this.setState({
-        //     currentPage: page,
-        // });
-        this.props.onPageChange(page);
-    }
-
     render() {
         const { products } = this.props;
         return (
@@ -39,11 +24,6 @@ export default class CardList extends Component {
                         return <Card key={product.name} product={product} />
                     })
                 }
-                <Pagination
-                    onChange={this.handleChange}
-                    total={this.props.pages}
-                    current={this.props.currentPage}
-                    display={this.calculateHowMuchToDisplay()} />
             </div>
         )
     }
