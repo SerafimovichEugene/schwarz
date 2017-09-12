@@ -1,8 +1,36 @@
 .nav-bar {
-    
-    background: #484749;
-    a {
-        color: white;
-        text-decoration: none;
+    display: flex;
+    height: 60px;
+    padding-left: 60px;
+    padding-right: 60px;
+    max-width: 1000px;
+    margin: 0 auto;
+    justify-content: space-between;
+    background: lightblue; // background: #484749;
+    .brand {
+        display: flex;
+        align-items: center;
+        width: 90px;
+        height: 100%;
+    }
+    .menu {
+        display: flex;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        padding-left: 30px;
+        list-style-type: none;
+        li {
+            display: flex;
+            height: 100%;
+            align-items: center;           
+            padding-left: 10px;
+            padding-right: 10px;
+            a {                                
+                color: black;
+                text-decoration: none;
+            }
+        }
     }
 }
+

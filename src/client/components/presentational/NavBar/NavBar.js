@@ -28,9 +28,15 @@ export default class NavBar extends Component {
         return (
             <header className='nav-bar'>                
                 <Link to='/' className="brand">SCHWARZ</Link>
-                <Link to='/catalog' className="catalog-link">Kаталог</Link>
-                <Link to='/' className="">Контакты</Link>
-                <Link to='/' className="">О нас</Link>
+                <div className='collapse-menu'>
+                    <div><i className="fa fa-bars fa-2x" aria-hidden="true" /></div>
+                    <div className='menu-items'/>
+                </div>
+                <ul className='menu'>                    
+                    <li><Link to='/catalog' className="catalog-link">Kаталог</Link></li>
+                    <li><Link to='/' className="">Контакты</Link></li>
+                    <li><Link to='/' className="">О нас</Link></li>
+                </ul>
                 {this.renderUserBar(user)}
             </header>
         )
