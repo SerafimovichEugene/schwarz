@@ -100,3 +100,13 @@ export const updateQuery = (query, type, chunk) => {
     }
     return result;
 };
+
+
+export const serealizeDataToLocalStorage = (key, value) => {
+    try {
+        let stringVal = JSON.stringify(value);
+        localStorage.setItem(key, stringVal);
+    } catch (e) {
+        console.log('From serealizeDataToLocalStorage', e);
+    }
+};

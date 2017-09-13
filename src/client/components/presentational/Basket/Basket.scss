@@ -1,0 +1,30 @@
+.basket {
+    margin: 20px;
+    border: 1px solid #ddd;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .wrapper-orders {
+        width: 90%;
+        padding: 20px;
+    }
+    .wrapper-process {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .process-order {
+        border: 1px solid #ddd;
+        margin: 15px 0 15px 0;
+        width: 115px;
+        color: #9c9494;
+        padding: 10px;
+    }
+    .process-order:hover {
+        cursor: pointer;
+        border: 1px solid rgba(71, 193, 55, 0.74);
+        color: rgba(71, 193, 55, 0.74);
+    }
+}

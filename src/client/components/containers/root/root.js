@@ -12,6 +12,7 @@ import Catalog from '../../containers/CatalogContainer/CatalogContainer';
 import Signup from '../../presentational/Signup/Signup';
 import Signin from '../../presentational/Signin/Signin.js';
 import AdminPanel from '../AdminPanelContainer/AdminPanelContainer';
+import Basket from '../BasketContainer/BasketContainer';
 import './root.scss';
 //configurate material-ui ---------
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -35,6 +36,13 @@ export default class Root extends Component {
                         <Switch>
                             <Route exact path='/' component={MainAppComponent}/>
                             <Route path='/catalog' render={withRouter(Catalog)}/>
+                            <Route path='/basket' render={() => {
+                                const { canFetchUser } = parse(document.cookie);
+                                if(canFetchUser) {
+                                    return (<Basket />);
+                                }
+                                return (<Redirect to='/' />);
+                            }} />
                             <Route path='/admin' render={({location}) => {
                                 const { canFetchUser, token } =  parse(document.cookie);
                                 const isAdmin = store.getState().get('user').get('user').get('isAdmin');

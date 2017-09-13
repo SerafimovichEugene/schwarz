@@ -16,12 +16,16 @@ export default class CardList extends Component {
     }
 
     render() {
-        const { products } = this.props;
+        const { products, user } = this.props;
         return (
             <div className='card-list'>
                 {
                     products.map(product => {
-                        return <Card key={product.name} product={product} />
+                        return <Card
+                            history={this.props.history}
+                            key={product.name}
+                            product={product}
+                            login={user} />
                     })
                 }
             </div>

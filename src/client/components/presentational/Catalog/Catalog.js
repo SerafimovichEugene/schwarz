@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
 import Pagination from 'material-ui-pagination';
 import CurrentFilters from './CurrentFilters/CurrentFilters';
-import { Redirect } from 'react-router-dom';
 import CircularProgress from 'material-ui/CircularProgress';
 import MainAppComponent from '../../containers/MainAppComponentContainer/MainAppComponentContainer';
 import CardList from './CardList/CardList';
@@ -32,7 +31,7 @@ export default class Catalog extends Component {
     static propTypes = {
         fetchProducts: PropTypes.any.isRequired,
         // query: PropTypes.any.isRequired,
-        isLoading: PropTypes.bool.isRequired,
+        // isLoading: PropTypes.bool.isRequired,
         products: PropTypes.any.isRequired,
     }
 
@@ -133,25 +132,28 @@ export default class Catalog extends Component {
 
 
     visualizeData = () => {
-        const { isLoading } = this.props;
+        const { isLoading } = this.props.products;
         if(isLoading) {
             console.log('START FETCHING IS LOADING');
             return <CircularProgress size={80} style={circularStyle} />
         }
-        const { products } = this.props;
+        const { products } = this.props.products;
         let { currentCurrency, priceFrom, priceTo, productType } = this.state;
         const filters = { currentCurrency, priceFrom, priceTo, productType } ;
         if(products.data) {
+            const { user } = this.props.user;
             return <div className='catalog-inner'>
                 <CurrentFilters filters={filters} />
-                {this.renderCardList(products)}
+                {this.renderCardList(products, user)}
                 {this.showPagination(products)}
             </div>
         }
     }
 
-    renderCardList = (products) => {
+    renderCardList = (products, user) => {
         return <CardList
+            history={this.props.history}
+            user={user.login}
             products={products.data}
         />
     }

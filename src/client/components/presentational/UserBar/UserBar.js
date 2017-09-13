@@ -25,6 +25,7 @@ export default class UserBar extends Component {
         return (
             // <div className={userBarClasses}>
             <div className='userBar'>
+                <Link to='/basket'>Basket</Link>
                 <p>{user.login}</p>
                 <img src={user.photo} className='avatar'/>
                 {this.renderAdminLink(user)}
