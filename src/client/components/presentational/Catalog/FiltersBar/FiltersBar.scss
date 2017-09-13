@@ -6,3 +6,9 @@
     text-align: center;
 }
 
+@media(max-width: 815px) {
+    .filters-bar {
+        min-width: 100%;
+        border-right: none;
+    }
+}//815px

@@ -18,3 +18,18 @@
         justify-content: space-between;
     }
 }
+
+@media(max-width: 815px) {
+    .catalog {
+        flex-wrap: wrap;
+    }
+}//815px
+
+@media(max-width: 400px) {
+    .catalog {
+        margin-left: 0;
+        margin-right: 0;
+        border-left: none;
+        border-right: none;
+    }
+}
