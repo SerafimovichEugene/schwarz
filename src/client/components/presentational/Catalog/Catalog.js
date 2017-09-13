@@ -119,6 +119,7 @@ export default class Catalog extends Component {
     componentWillMount() {
         const queryObject = parseQuery(this.state.query);
         this.setState({
+            screenWidth: document.documentElement.clientWidth,
             currentPage: queryObject.page,
             currentCurrency: queryObject.currency,
             priceFrom: queryObject.priceFrom && +queryObject.priceFrom,
@@ -157,10 +158,18 @@ export default class Catalog extends Component {
 
 
     calculateHowMuchToDisplay = (products) => {
-        let { pages } = products;
+        const { pages } = products;
         if(pages <= 1) return 0;
-        if(pages <= 15) return pages;
-        else return 15;
+        if(pages <= 15) {
+            if(this.state.screenWidth <= 560 && pages > 6) {
+                return 6;
+            }
+            return pages;
+        }
+        if(this.state.screenWidth <= 560) {
+            return 6;
+        }
+        return 15;
     }
 
     showPagination = (products) => {

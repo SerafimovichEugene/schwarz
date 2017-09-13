@@ -1,4 +1,4 @@
-.current-filters{
+.current-filters {
     padding: 10px;
     border-bottom: 1px solid #ddd;
     display: flex;
@@ -7,3 +7,10 @@
     justify-content: space-around;
     text-align: center;
 }
+
+
+@media(max-width: 815px) {
+    .current-filters {
+        border-top: 1px solid #ddd;
+    }
+}//815px
