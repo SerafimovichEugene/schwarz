@@ -14,12 +14,11 @@ export default class NavBar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isToggleMenu: true,
-            windowWidth: 0,     
+            isToggleMenu: true,   
         };
-        this.handleToggleMenu = this.handleToggleMenu.bind(this);
     }
-    handleToggleMenu() {
+    
+    handleToggleMenu = () => {
         this.setState({ isToggleMenu: !this.state.isToggleMenu });
     }
 
@@ -54,9 +53,7 @@ export default class NavBar extends Component {
                     <li><Link to='/' className="">Контакты</Link></li>
                     <li><Link to='/' className="">О нас</Link></li>
                 </ul>
-
                 {this.renderUserBar(user)}
-
             </header>
         )
     }

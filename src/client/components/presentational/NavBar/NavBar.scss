@@ -1,89 +1,104 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 $mobile: 480px;
 $navBarHeight: 60px;
-$navFont: 'Roboto', sans-serif;
+$navFont: 'Roboto',sans-serif;
+$navBarBackgroundColor: #464547;
+$hoverColor: #39c1d6;
 
 .nav-bar {
     display: flex;
     position: relative;
-    height: $navBarHeight;
+    height: $navBarHeight; 
     // padding-left: 60px;
     // padding-right: 60px;
     margin: 0 auto;
     justify-content: flex-start;
-    background: #464547;
+    background: $navBarBackgroundColor;
     font-family: $navFont;
-}
-
-.nav-bar a:hover{
-    color: #39c1d6;
-}
-
-.menu-brand {
-    display: flex;
-    align-items: center;
-    height: 100%;
-    padding: 0 20px 0 20px;
-    text-decoration: none;
-    color: white;
-}
-
-.menu-button {
-    display: flex;    
-    align-items: center;
-    padding: 0 10px 0 10px;
-    height: 100%;
-    color: white;
-    cursor: pointer; 
-}
-
-.menu-button:hover {
-    color: #39c1d6;
-}
-  
-.menu-items {
-    display: flex;
-    padding: 0;
-    margin: 0;    
-    list-style-type: none;
-    li {
-        display: flex;
-        height: 100%;
-        align-items: center;
-        background: #464547;
-        cursor: pointer;
-        a {                                
-            color: white;
-            text-decoration: none;
-            padding-left: 6px;
-            padding-right: 6px;
-        }
-    }
-}
-
-@media screen and (max-width: $mobile + 1) {
-    // mobile
     .menu-brand {
-        display: none;
+        display: flex;
+        align-items: center;
+        height: 100%;
+        padding: 0 20px 0 20px;
+        text-decoration: none;
+        color: white;
+    }
+    .menu-brand:hover{
+        color: $hoverColor;
+    }
+    .menu-button {
+        display: flex;
+        align-items: center;
+        padding: 0 10px 0 10px;
+        height: 100%;
+        color: white;
+        cursor: pointer;
+    }
+    .menu-button:hover {
+        color: $hoverColor;
     }
     .menu-items {
-        display: block;
-        position: absolute;
-        top: $navBarHeight;
-        width: 100%;
+        display: flex;
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
         li {
-            justify-content: center;
-            padding: 10px;
+            display: flex;
+            height: 100%;
+            align-items: center;
+            background: $navBarBackgroundColor;
+            cursor: pointer;
+            a {
+                color: white;
+                text-decoration: none;
+                padding-left: 6px;
+                padding-right: 6px;
+            }
+        }
+        li:hover {
+            a {
+                color: $hoverColor;
+            }
         }
     }
-    #hide-menu-items {
-        display: none;
+    @media screen and (max-width: $mobile) {
+        // mobile
+        .menu-brand {
+            display: none;
+        }
+        .menu-items {
+            display: block;
+            position: absolute;
+            top: $navBarHeight;
+            width: 100%;
+            z-index: 900;
+            li {
+                justify-content: center;
+                padding: 10px;
+            }
+        }
+        #hide-menu-items {
+            display: none;
+        }
     }
-}
-
-@media screen and (min-width: $mobile) { 
-    // desktop
-    .menu-button {
-        display: none;
+    @media screen and (min-width: $mobile) {
+        // desktop
+        .menu-button {
+            display: none;
+        }
+    }
+    .links {
+        display: flex;
+        margin-left: auto;
+        align-items: center;
+        a {
+            padding-left: 10px;
+            padding-right: 10px;
+            color: white;
+            text-decoration: none; 
+        }
+        a:hover {
+            color: $hoverColor; 
+        }
     }
 }

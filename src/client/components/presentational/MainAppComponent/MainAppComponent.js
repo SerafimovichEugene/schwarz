@@ -33,10 +33,7 @@ export default class MainAppComponent extends Component {
         return (
             <div>
                 <NavBar />
-                {/* <header>
-                    <Link to='/catalog'>Catalog</Link>
-                    {this.renderUserBar(user)}
-                </header> */}
+
                 {this.props.children}
                 <footer>footer</footer>
             </div>

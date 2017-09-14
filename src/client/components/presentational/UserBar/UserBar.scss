@@ -1,14 +1,53 @@
+$navBarBackgroundColor: #464547;
+$hoverColor: #39c1d6;
+
 .userBar {
     display: flex;
-    flex-direction: row;
-    // width: 20%;
+    position: relative;
     margin-left: auto;
+    flex-direction: row;
     justify-content: space-around;
     align-items: center;
     color: white;
-    .avatar {
+    .userBar-wrapper {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+    .userBar-wrapper:hover {
+        color: #39c1d6;
+    }
+    .userBar-avatar {
         width: 45px;
         border-radius: 50%;
         margin: 5px;
+    }
+    .userBar-icons {
+        display: flex;
+        align-items: center;
+        height: 100%;
+    }
+    .userBar-list{
+        display: block;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        margin: 0;
+        padding: 15px;
+        z-index: 900;
+        list-style-type: none;
+        background: $navBarBackgroundColor;
+        li a {
+            text-decoration: none;            
+            color: white;
+        }
+        li:hover {
+            a {
+                color: $hoverColor;
+            }
+        } 
+    }
+    #hide-userBar-list {
+        display: none;
     }
 }
