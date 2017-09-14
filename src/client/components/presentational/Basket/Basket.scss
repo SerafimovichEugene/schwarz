@@ -14,8 +14,12 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        flex-wrap: wrap;
     }
     .process-order {
+        text-decoration: none;
+        background: none;
+        font-size: inherit;
         border: 1px solid #ddd;
         margin: 15px 0 15px 0;
         width: 115px;
@@ -26,5 +30,20 @@
         cursor: pointer;
         border: 1px solid rgba(71, 193, 55, 0.74);
         color: rgba(71, 193, 55, 0.74);
+    }
+    .back {
+        margin-left: 15px;
+    }
+    .back:hover {
+        border: 1px solid rgba(182, 66, 46, 0.85);
+        color: rgba(182, 66, 46, 0.85);
+    }
+}
+
+@media(max-width: 500px) {
+    .basket {
+        .back {
+            margin-left: 0;
+        }
     }
 }

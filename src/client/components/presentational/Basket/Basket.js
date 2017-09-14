@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Step, Stepper, StepLabel, StepContent } from 'material-ui/Stepper';
 import Order from './Order/Order';
 import MainAppComponent from '../../containers/MainAppComponentContainer/MainAppComponentContainer';
 import './Basket.scss';
@@ -7,7 +8,9 @@ export default class Basket extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showProcess: false,
+            // showProcess: false,
+            finished: false,
+            stepIndex: 0,
         }
     }
 
@@ -15,28 +18,96 @@ export default class Basket extends Component {
         this.forceUpdate();
     }
 
-    handleProcessClick = () => {
+    // handleProcessClick = () => {
+    //     this.setState({
+    //         showProcess: true,
+    //
+    //     });
+    // }
+
+    handleNext = () => {
+        const {stepIndex} = this.state;
         this.setState({
-            showProcess: true,
+            stepIndex: stepIndex + 1,
+            finished: stepIndex >= 2,
         });
+    };
+
+    handlePrev = () => {
+        const {stepIndex} = this.state;
+        if (stepIndex > 0) {
+            this.setState({stepIndex: stepIndex - 1});
+        }
+    };
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(e);
+    }
+
+    renderStepActions(step) {
+        const {stepIndex} = this.state;
+
+        return (
+        //   <div style={{margin: '12px 0'}}>
+            <div className='wrapper-process'>
+                {step === 0 && (
+                    <div
+                        className='process-order'
+                        onClick={this.handleNext}
+                    >Далее</div>
+                )}
+                {step > 0 && (
+                    <button
+                        onClick={this.handleSubmit}
+                        type='submit'
+                        className='process-order'>Заказать</button>
+                )}
+                {step > 0 && (
+                    <div
+                        className='process-order back'
+                        onClick={this.handlePrev}
+                    >Назад</div>
+                )}
+            </div>
+        //     {step > 0 && (
+        //       <FlatButton
+        //         label="Back"
+        //         disabled={stepIndex === 0}
+        //         disableTouchRipple={true}
+        //         disableFocusRipple={true}
+        //         onClick={this.handlePrev}
+        //       />
+        //     )}
+        //   </div>
+        );
     }
 
     visualizeData = () => {
+        const {finished, stepIndex} = this.state;
         const { login } = this.props.user.user;
         const orders = JSON.parse(localStorage.getItem(login));
         if(orders && orders.length) {
             return (
                 <div className='wrapper-orders'>
-                    <div className='orders'>
-                        {this.renderOrders(orders, login)}
-                    </div>
-                    <div className='wrapper-process'>
-                        <div
-                            className='process-order'
-                            onClick={this.handleProcessClick}
-                        >Оформить заказ</div>
-                    </div>
-                    {this.renderProcess()}
+                    <Stepper activeStep={stepIndex} orientation="vertical">
+                        <Step>
+                            <StepLabel>Check your order items</StepLabel>
+                            <StepContent>
+                                <div className='orders'>
+                                    {this.renderOrders(orders, login)}
+                                </div>
+                                {this.renderStepActions(0)}
+                            </StepContent>
+                        </Step>
+                        <Step>
+                            <StepLabel>Fill in your personal information</StepLabel>
+                            <StepContent>
+                                {this.renderProcess()}
+                            </StepContent>
+                        </Step>
+                    </Stepper>
+                    {/* {this.renderProcess()} */}
                 </div>
             )
         }
@@ -44,15 +115,16 @@ export default class Basket extends Component {
     }
 
     renderProcess = () => {
-        if(this.state.showProcess) {
-            return (
-                <form action='/api/process' method='POST'>
+        return (
+            <form
+                action='/api/process'
+                method='POST' >
                 <input type="text" className="form-control" name="email"/>
                 <input type='text' name='phone'/>
-                <button type="submit" className="btn btn-warning btn-lg">Заказать</button>
-                </form>
-            )
-        }
+                {this.renderStepActions(1)}
+            </form>
+        )
+
     }
 
     renderOrders = (orders, login) => {

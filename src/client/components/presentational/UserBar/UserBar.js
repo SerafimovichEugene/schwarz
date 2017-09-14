@@ -6,6 +6,9 @@ import './UserBar.scss';
 export default class UserBar extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            showTooltip: false,
+        }
     }
 
     renderAdminLink = (user) => {
@@ -16,20 +19,45 @@ export default class UserBar extends Component {
         }
     }
 
+    renderTooltip = () => {
+        const { user } = this.props;
+        if(this.state.showTooltip) {
+            return (
+                <div className='tooltip'>
+                    <div className='triangle'></div>
+                    <div>{user.login}</div>
+                </div>
+            )
+        }
+    }
+
+    handleAvatarIn = (e) => {
+        this.setState({
+            showTooltip: true,
+        })
+    }
+
+    handleAvatarOut = () => {
+        this.setState({
+            showTooltip: false,
+        })
+    }
+
     render() {
         const { user } = this.props;
-        console.log('FROM USER BAR ', user);
-        // const userBarClasses = classNames({
-        //     none: !user.login,
-        // });
         return (
-            // <div className={userBarClasses}>
             <div className='userBar'>
-                <Link to='/basket'>Basket</Link>
-                <p>{user.login}</p>
-                <img src={user.photo} className='avatar'/>
-                {this.renderAdminLink(user)}
-                <a href='/auth/logout'>Logout</a>
+                <div className='links'>
+                    <Link to='/basket'>Basket</Link>
+                    {this.renderAdminLink(user)}
+                </div>
+                {/* <p>{user.login}</p> */}
+                <img src={user.photo}
+                    onMouseOver={this.handleAvatarIn}
+                    onMouseOut={this.handleAvatarOut}
+                    className='avatar'/>
+                {this.renderTooltip()}
+                <a className='logout' href='/auth/logout'>Logout</a>
             </div>
         )
     }
