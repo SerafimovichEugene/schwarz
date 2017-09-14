@@ -8,6 +8,8 @@ export default class UserBar extends Component {
         super(props);
         this.state = {
             showTooltip: false,
+            x: 0,
+            y: 0,
         }
     }
 
@@ -22,8 +24,11 @@ export default class UserBar extends Component {
     renderTooltip = () => {
         const { user } = this.props;
         if(this.state.showTooltip) {
+            const tooltipStyle = {
+                top: this.state.y + 20,
+            }
             return (
-                <div className='tooltip'>
+                <div className='tooltip' style={tooltipStyle}>
                     <div className='triangle'></div>
                     <div>{user.login}</div>
                 </div>
@@ -34,6 +39,8 @@ export default class UserBar extends Component {
     handleAvatarIn = (e) => {
         this.setState({
             showTooltip: true,
+            x: e.pageX,
+            y: e.pageY,
         })
     }
 
@@ -44,17 +51,17 @@ export default class UserBar extends Component {
     }
 
     render() {
-        const { user } = this.props;
+        const { user, showInDropMenu } = this.props;
         return (
-            <div className='userBar'>
+            <div className={showInDropMenu ? 'userBar-drop' : 'userBar'}>
                 <div className='links'>
                     <Link to='/basket'>Basket</Link>
                     {this.renderAdminLink(user)}
                 </div>
                 {/* <p>{user.login}</p> */}
                 <img src={user.photo}
-                    onMouseOver={this.handleAvatarIn}
-                    onMouseOut={this.handleAvatarOut}
+                    onMouseOver={!showInDropMenu && this.handleAvatarIn}
+                    onMouseOut={!showInDropMenu && this.handleAvatarOut}
                     className='avatar'/>
                 {this.renderTooltip()}
                 <a className='logout' href='/auth/logout'>Logout</a>
