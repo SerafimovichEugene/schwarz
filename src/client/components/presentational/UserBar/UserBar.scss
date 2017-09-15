@@ -31,7 +31,7 @@
 }
 
 .userBar, .userBar-drop {
-    position: relative;
+    // position: relative;
     .avatar {
         border: 2px solid #ddd;
         width: 45px;
@@ -52,6 +52,9 @@
     .logout:hover {
         color: rgb(0, 188, 212);
     }
+    // .wrapper-for-tooltip {
+    //     position: relative;
+    // }
 }
 
 @media(max-width: 860px) {

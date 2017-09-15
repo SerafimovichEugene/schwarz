@@ -139,8 +139,10 @@ export default class Basket extends Component {
 
 
     render() {
+        const { isVerifed } = this.props.user.user;
         return (
             <MainAppComponent>
+                {!isVerifed && <div className='message'>We send you email. Please verefie your accaunt.</div>}
                 <div className='basket'>
                     {this.visualizeData()}
                 </div>

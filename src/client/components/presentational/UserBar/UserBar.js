@@ -25,7 +25,8 @@ export default class UserBar extends Component {
         const { user } = this.props;
         if(this.state.showTooltip) {
             const tooltipStyle = {
-                top: this.state.y + 20,
+                top: `${this.state.y + 20}px`,
+                left: `${this.state.x - 80}px`
             }
             return (
                 <div className='tooltip' style={tooltipStyle}>
@@ -59,11 +60,13 @@ export default class UserBar extends Component {
                     {this.renderAdminLink(user)}
                 </div>
                 {/* <p>{user.login}</p> */}
-                <img src={user.photo}
-                    onMouseOver={!showInDropMenu && this.handleAvatarIn}
-                    onMouseOut={!showInDropMenu && this.handleAvatarOut}
-                    className='avatar'/>
-                {this.renderTooltip()}
+                <div className='wrapper-for-tooltip'>
+                    <img src={user.photo}
+                        onMouseOver={!showInDropMenu && this.handleAvatarIn}
+                        onMouseOut={!showInDropMenu && this.handleAvatarOut}
+                        className='avatar'/>
+                    {this.state.showTooltip && this.renderTooltip()}
+                </div>
                 <a className='logout' href='/auth/logout'>Logout</a>
             </div>
         )

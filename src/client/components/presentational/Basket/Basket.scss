@@ -40,6 +40,13 @@
     }
 }
 
+.message {
+    color: rgba(66, 140, 64, 0.7);
+    margin: 15px auto;
+    padding: 20px;
+    border: 1px solid rgba(66, 140, 64, 0.7);
+}
+
 @media(max-width: 500px) {
     .basket {
         .back {
