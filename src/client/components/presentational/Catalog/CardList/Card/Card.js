@@ -11,10 +11,10 @@ export default class Card extends Component {
 
     handleClick = () => {
         const { login } = this.props;
+        const { name, currency, photo, productType, price } = this.props.product;
         if(!login) {
             this.props.history.push('/signin');
         } else {
-            const { name, currency, photo, productType, price } = this.props.product;
             const productInfo = { name, currency, photo, price };
             const data = localStorage.getItem(login);
             if(data) {
@@ -32,6 +32,8 @@ export default class Card extends Component {
                 serealizeDataToLocalStorage(login, arr);
             }
         }
+        this.props.onOrder(name);
+        this.props.addProductToBasket(login);
     }
 
     render() {

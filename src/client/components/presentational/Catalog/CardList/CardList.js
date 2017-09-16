@@ -22,6 +22,8 @@ export default class CardList extends Component {
                 {
                     products.map(product => {
                         return <Card
+                            addProductToBasket={this.props.addProductToBasket}
+                            onOrder={this.props.onOrder}
                             history={this.props.history}
                             key={product.name}
                             product={product}

@@ -10,6 +10,15 @@ header {
     flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
+    .counter {
+        position: absolute;
+        background: rgba(226, 20, 20, 0.9);
+        padding: 0 5px;
+        color: white;
+        border-radius: 50%;
+        top: -6px;
+        left: 17px;
+    }
     span.fa {
         display: none;
         color: white;

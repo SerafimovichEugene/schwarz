@@ -13,6 +13,51 @@ export default class Header extends Component {
         }
     }
 
+    componentWillMount() {
+        if(window.innerWidth <= 860) {
+            this.setState({
+                canShowCounterOnBurger: true,
+            });
+        }
+        window.addEventListener('resize', () => {
+            if(this.hed) {
+                if(window.innerWidth <= 860) {
+                    this.setState({
+                        canShowCounterOnBurger: true,
+                    });
+                } else {
+                    this.setState({
+                        canShowCounterOnBurger: false,
+                    })
+                }
+            }
+        })
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.order) {
+            this.setState({
+                orderItems: nextProps.order,
+            })
+        } else if (nextProps.user.login) {
+            const localStorageItem = window.localStorage.getItem(nextProps.user.login);
+            if(localStorageItem) {
+                const orderItems = JSON.parse(localStorageItem).length;
+                this.setState({
+                    orderItems,
+                });
+            }
+        }
+    }
+    renderCounterOnBurger = () => {
+        if(this.props.user.login) {
+            if(this.state.canShowCounterOnBurger) {
+                if(+this.state.orderItems) {
+                    return <div className ='counter'>{+this.state.orderItems}</div>
+                }
+            }
+        }
+    }
 
     renderMenu = () => {
         const { user } = this.props;
@@ -38,7 +83,9 @@ export default class Header extends Component {
 
     renderUserBar = (user, showInDropMenu) => {
         if(user.login) {
-            return  <UserBar showInDropMenu={showInDropMenu} />;
+            return  <UserBar
+                orderItems={this.state.orderItems}
+                showInDropMenu={showInDropMenu} />;
         }
         return (
             <div className='links menu'>
@@ -51,7 +98,7 @@ export default class Header extends Component {
     render() {
         const { user } = this.props;
         return (
-            <header>
+            <header ref={(hed) => this.hed = hed}>
                 <div className='logo'>
                     <Link to='/'><h1>schwarz</h1></Link>
                     <i className="arrow right"></i>
@@ -61,11 +108,14 @@ export default class Header extends Component {
                     <Link to='/info'>Info</Link>
                 </div>
                 {this.renderUserBar(user)}
-                <FontAwesome
-                    onClick={this.handleBarClick}
-                    name='bars'
-                    size='2x'
-                    style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}/>
+                <div style={{position: 'relative'}}>
+                    <FontAwesome
+                        onClick={this.handleBarClick}
+                        name='bars'
+                        size='2x'
+                        style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}/>
+                    {this.renderCounterOnBurger()}
+                </div>
                 {this.renderMenu()}
             </header>
         )

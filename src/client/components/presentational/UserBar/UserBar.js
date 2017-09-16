@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import './UserBar.scss';
 
+
+
 export default class UserBar extends Component {
     constructor(props) {
         super(props);
@@ -10,6 +12,37 @@ export default class UserBar extends Component {
             showTooltip: false,
             x: 0,
             y: 0,
+        }
+    }
+
+    _setLeft = () => {
+        if(window.innerWidth > 860) {
+            if(this.userbardiv) {
+                this.setState({
+                    left: 9,
+                })
+            }
+        } else if(window.innerWidth <= 860) {
+            if(this.div) {
+                const { width } = this.div.getBoundingClientRect();
+                const left = (width/2) - 45;
+                this.setState({
+                    left,
+                });
+            }
+        }
+    }
+    // shouldComponentUpdate() {
+    //     if(window.innerWidth > 860) {
+    //         window.removeEventListener('resize', this._setLeft);
+    //     }
+    //     return true;
+    // }
+
+    componentDidMount() {
+        this._setLeft();
+        if(window.innerWidth <= 860) {
+            window.addEventListener('resize', this._setLeft);
         }
     }
 
@@ -51,12 +84,26 @@ export default class UserBar extends Component {
         })
     }
 
+    renderCounter = () => {
+        if(+this.props.orderItems) {
+            return <div
+                className ='counter'
+                style={{left: `${this.state.left}px`}}>
+                {this.props.orderItems}
+            </div>
+
+        }
+    }
+
     render() {
         const { user, showInDropMenu } = this.props;
         return (
-            <div className={showInDropMenu ? 'userBar-drop' : 'userBar'}>
-                <div className='links'>
+            <div className={showInDropMenu ? 'userBar-drop' : 'userBar'} ref={(userbardiv) => this.userbardiv = userbardiv}>
+                <div className='links' ref={(div) => this.div = div}>
+                    {this.renderCounter()}
+                    {/* <div className='relative-count'> */}
                     <Link to='/basket'>Basket</Link>
+                    {/* </div> */}
                     {this.renderAdminLink(user)}
                 </div>
                 {/* <p>{user.login}</p> */}

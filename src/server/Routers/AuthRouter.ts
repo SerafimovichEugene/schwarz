@@ -58,6 +58,11 @@ export default class AuthRouter implements AuthRouterInterface {
                 dbuser = await User.findOneAndUpdate(
                     { email: incomeUser.email},
                     { isVerifed: true });
+                req.logIn(dbuser, (err) => {
+                    if (!err) {
+                        console.log('succefuly verefied accaunt');
+                    }
+                });
                 res.redirect('/');
             } catch (error) {
                 console.log(error);

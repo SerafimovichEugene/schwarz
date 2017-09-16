@@ -14,16 +14,17 @@ export default class MainAppComponent extends Component {
     componentWillMount() {
         const { fetchUser, user } = this.props;
         const { canFetchUser } =  parse(document.cookie);
-        if(!user.login && canFetchUser) {
+        if(!user.user.login && canFetchUser) {
             fetchUser();
         }
     }
 
     render() {
-        const { user } = this.props;
+        const { user } = this.props.user;
+        const { order } = this.props.products.products;
         return (
             <main>
-                <Header user={user} />
+                <Header user={user} order={order} />
                 {/* <header>
                     <Link to='/catalog'>Catalog</Link>
                     {this.renderUserBar(user)}
