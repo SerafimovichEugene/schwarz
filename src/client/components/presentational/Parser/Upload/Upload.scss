@@ -17,6 +17,12 @@ input[type="file"] {
 }
 
 .upload-wrapper {
-    width: 25%;
+    min-width: 300px;
     min-height: 350px;
+}
+
+@media(max-width: 900px) {
+	.upload-wrapper {
+		margin-bottom: 20px;
+	}
 }

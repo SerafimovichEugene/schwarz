@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
+import Snackbar from 'material-ui/Snackbar';
 import Pagination from 'material-ui-pagination';
 import CurrentFilters from './CurrentFilters/CurrentFilters';
-import { Redirect } from 'react-router-dom';
 import CircularProgress from 'material-ui/CircularProgress';
 import MainAppComponent from '../../containers/MainAppComponentContainer/MainAppComponentContainer';
 import CardList from './CardList/CardList';
@@ -27,22 +27,37 @@ const paginationStyle = {
     borderTop: '1px solid #ddd',
 }
 
+
 export default class Catalog extends Component {
 
     static propTypes = {
         fetchProducts: PropTypes.any.isRequired,
         // query: PropTypes.any.isRequired,
-        isLoading: PropTypes.bool.isRequired,
+        // isLoading: PropTypes.bool.isRequired,
         products: PropTypes.any.isRequired,
     }
 
     constructor(props) {
         super(props);
         this.state = {
+            open: false,
+            name: '',
             query: this.props.location.search || '?count=15&page=1&currency=RUB',
         }
     }
 
+    handleTouchTap = (name) => {
+        this.setState({
+            open: true,
+            name,
+        });
+    };
+
+    handleRequestClose = () => {
+        this.setState({
+            open: false,
+        });
+    };
 
     _handler = (value, type) => {
         const { fetchProducts, fetchProductsThrottle } = this.props;
@@ -133,25 +148,31 @@ export default class Catalog extends Component {
 
 
     visualizeData = () => {
-        const { isLoading } = this.props;
+        const { isLoading } = this.props.products;
         if(isLoading) {
-            console.log('START FETCHING IS LOADING');
-            return <CircularProgress size={80} style={circularStyle} />
+            if(window.innerWidth > 860) {
+                return <CircularProgress size={80} style={circularStyle} />
+            }
         }
-        const { products } = this.props;
+        const { products } = this.props.products;
         let { currentCurrency, priceFrom, priceTo, productType } = this.state;
         const filters = { currentCurrency, priceFrom, priceTo, productType } ;
         if(products.data) {
+            const { user } = this.props.user;
             return <div className='catalog-inner'>
                 <CurrentFilters filters={filters} />
-                {this.renderCardList(products)}
+                {this.renderCardList(products, user)}
                 {this.showPagination(products)}
             </div>
         }
     }
 
-    renderCardList = (products) => {
+    renderCardList = (products, user) => {
         return <CardList
+            addProductToBasket={this.props.addProductToBasket}
+            onOrder={this.handleTouchTap}
+            history={this.props.history}
+            user={user.login}
             products={products.data}
         />
     }
@@ -198,6 +219,12 @@ export default class Catalog extends Component {
                     />
                     {this.visualizeData()}
                 </div>
+                <Snackbar
+                    open={this.state.open}
+                    message={`${this.state.name} added to basket`}
+                    autoHideDuration={2000}
+                    onRequestClose={this.handleRequestClose}
+                />
             </MainAppComponent>
         )
     }

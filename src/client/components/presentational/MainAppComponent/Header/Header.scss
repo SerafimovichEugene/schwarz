@@ -1,0 +1,114 @@
+header {
+    // position: fixed;
+    // top: 0;
+    width: 100%;
+    z-index: 9999;
+    // margin-bottom: 50px;
+    background-color: #464547;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    .counter {
+        position: absolute;
+        background: rgba(226, 20, 20, 0.9);
+        padding: 0 5px;
+        color: white;
+        border-radius: 50%;
+        top: -6px;
+        left: 17px;
+    }
+    span.fa {
+        display: none;
+        color: white;
+    }
+    span.fa:hover {
+        cursor: pointer;
+        color: rgb(0, 188, 212);
+    }
+    .drop-menu {
+        display: none;
+    }
+    .links {
+        display: flex;
+    }
+    a {
+        text-decoration: none;
+        color: white;
+    }
+    .logo a:hover {
+        color: rgb(0, 188, 212);
+    }
+    .links a {
+        padding: 12px;
+        letter-spacing: 2px;
+        font-size: 20px;
+        border-right: 1px solid #ddd;
+    }
+    .links a:nth-last-child(1) {
+        border-right: none;
+    }
+    .links a:hover {
+        color: rgb(0, 188, 212);
+    }
+    .logo {
+        display: flex;
+        align-items: baseline;
+        justify-content: center;
+        margin: 0;
+        color: white;
+        font-size: 23px;
+        letter-spacing: 3px;
+        h1 {
+            margin: 0;
+        }
+        i {
+            border: solid white;
+            border-width: 0 1px 1px 0;
+            display: inline-block;
+            padding: 15px 14px 24px;
+        }
+        .right {
+            transform: rotate(-90deg);
+            -webkit-transform: rotate(-90deg);
+        }
+    }
+    .logo:hover {
+        cursor: pointer;
+    }
+
+}
+
+
+@media (max-width: 860px) {
+    header {
+        justify-content: space-between;
+        .drop-menu {
+            display: flex;
+            flex-direction: column;
+            align-items: normal;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+            .links {
+                display: flex;
+                flex-direction: column;
+            }
+            .links a {
+                border-right: none;
+                border-bottom: 1px solid #ddd;
+            }
+        }
+        .logo {
+            margin-left: 20px;
+        }
+        .menu, .userBar {
+            display: none;
+        }
+        span.fa {
+            margin-right: 20px;
+            display: inline-block;
+        }
+    }
+}

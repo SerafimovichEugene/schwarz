@@ -7,7 +7,7 @@
 	text-align:center;
 	font:20pt bold,"Vollkorn";
 	color:#bbb;
-	width: 25%;
+	min-width: 300px;
 	min-height: 350px;
 	display: flex;
 	align-items: center;
@@ -20,4 +20,10 @@
 
 .dragged {
 	border: 5px dashed rgba(92, 254, 84, 0.83);
+}
+
+@media(max-width: 900px) {
+	.drop {
+		margin-bottom: 20px;
+	}
 }

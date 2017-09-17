@@ -1,0 +1,77 @@
+.basket {
+    margin: 20px;
+    border: 1px solid #ddd;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .or {
+        color: #807777;
+        font-size: 1.5em;
+    }
+    .wrapper-orders {
+        width: 90%;
+        padding: 20px;
+    }
+    .wrapper-process {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .process {
+        text-align: -webkit-center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        align-items: stretch;
+    }
+    .process-order {
+        text-align: center;
+        text-decoration: none;
+        background: none;
+        font-size: inherit;
+        border: 1px solid #ddd;
+        margin: 15px 0 15px 0;
+        width: 115px;
+        color: #9c9494;
+        padding: 10px;
+    }
+    .process-order:hover {
+        cursor: pointer;
+        border: 1px solid rgba(71, 193, 55, 0.74);
+        color: rgba(71, 193, 55, 0.74);
+    }
+    .blocked:hover {
+        border: 1px solid #ddd;
+        color: #9c9494;
+        cursor: not-allowed;
+    }
+    .back {
+        margin-left: 15px;
+    }
+    .map:hover {
+        border: 1px solid rgba(7, 122, 115, 0.74);
+        color: rgba(7, 122, 115, 0.74);
+    }
+    .back:hover {
+        border: 1px solid rgba(182, 66, 46, 0.85);
+        color: rgba(182, 66, 46, 0.85);
+    }
+}
+
+.message {
+    color: rgba(66, 140, 64, 0.7);
+    margin: 15px auto;
+    padding: 20px;
+    border: 1px solid rgba(66, 140, 64, 0.7);
+}
+
+@media(max-width: 500px) {
+    .basket {
+        .back {
+            margin-left: 0;
+        }
+    }
+}

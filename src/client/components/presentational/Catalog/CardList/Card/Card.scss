@@ -47,7 +47,7 @@
         line-height: 24px;
         text-transform: uppercase;
     }
-    a {
+    .buy {
         // box-sizing: border-box;
         width: 60px;
         color: #212121;
@@ -58,9 +58,12 @@
         text-transform: uppercase;
         border-left: 1px solid #d7d7d7;
         border-right: 1px solid #d7d7d7;
+        border-top: 1px solid rgba(0, 0, 0, 0);
+        border-bottom: 1px solid rgba(0, 0, 0, 0);
         text-decoration: none;
     }
-    a:hover {
+    .buy:hover {
+        cursor: pointer;
         border-top: 1px solid #d7d7d7;
         border-bottom: 1px solid #d7d7d7;
         border-left: none;
