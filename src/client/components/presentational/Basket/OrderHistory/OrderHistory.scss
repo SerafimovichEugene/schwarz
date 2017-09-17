@@ -1,0 +1,23 @@
+.order-history {
+    margin-top: 30px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    justify-content: space-around;
+    display: flex;
+    align-items: center;
+    .time {
+        border: 1px solid #ddd;
+        padding: 10px;
+    }
+}
+
+@media(max-width: 800px) {
+    .order-history {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+    .time {
+        margin-top: 10px;
+    }
+}

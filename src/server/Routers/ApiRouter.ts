@@ -4,8 +4,11 @@ import MiddlewareFactory from '../Middleware/MiddlewareFactory';
 import getProductsController from '../Controllers/getProductsController';
 import getDocumentsController from '../Controllers/getDocumentsController';
 import updateProductsController from '../Controllers/updateProductsController';
-import getDistinctTypesController from '../Controllers/getDistinctTypesController'
+import getDistinctTypesController from '../Controllers/getDistinctTypesController';
 import addProductsDocumentController from '../Controllers/addProductsDocumentController';
+import orderCompleteController from '../Controllers/orderCompleteController';
+import addHistoryController from '../Controllers/addHistoryController';
+import getOrderHistoryController from '../Controllers/getOrderHistoryController';
 import * as express from 'express';
 
 interface ApiRouterInterface {
@@ -40,7 +43,10 @@ export default class ApiRouter implements ApiRouterInterface {
         this.router.get('/products', getProductsController);
         this.router.get('/documents', getDocumentsController);
         this.router.get('/distinct', getDistinctTypesController);
+        this.router.get('/orderhistory', getOrderHistoryController);
         this.router.post('/products', guardMiddleware, updateProductsController);
         this.router.post('/documents', guardMiddleware, addProductsDocumentController);
+        this.router.post('/ordercomplete', orderCompleteController);
+        this.router.post('/addhistory', addHistoryController);
     }
 }

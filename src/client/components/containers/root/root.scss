@@ -5,3 +5,27 @@ body {
     margin: 0;
     padding: 0;
 }
+
+/*
+goole-map autocomplete component isn't a child of a map component,
+because material-ui dialog component has big value of z-index,
+we have to set the autocomplete component's z-index bigger then the dialog component value,
+otherwise autocomplete isn't visible
+*/
+.pac-container {
+    z-index: 1500;
+}
+
+.meditor-textarea {
+    margin-top: 10px;
+    width: 100%;
+    min-height: 60%;
+    overflow-y: scroll;
+    padding: 15px 10px;
+    margin-bottom: 10px;
+}
+
+.meditor-preview {
+    max-height: 70%;
+    width: 100%;
+}

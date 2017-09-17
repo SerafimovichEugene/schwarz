@@ -5,7 +5,6 @@ import propTypes from 'prop-types';
 import { BrowserRouter, Switch, Route, Link, Redirect, withRouter } from 'react-router-dom';
 import store from '../../../store/store';
 import App from '../App/App';
-import CantAcces from '../../presentational/CantAcces/CantAcces';
 import MainAppComponent from '../MainAppComponentContainer/MainAppComponentContainer';
 import Parser from '../../presentational/Parser/Parser';
 import Catalog from '../../containers/CatalogContainer/CatalogContainer';

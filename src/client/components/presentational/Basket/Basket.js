@@ -1,16 +1,115 @@
 import React, { Component } from 'react';
+import TextField from 'material-ui/TextField';
+import Dialog from 'material-ui/Dialog';
+import MapWithASearchBox from './Map/Map';
 import { Step, Stepper, StepLabel, StepContent } from 'material-ui/Stepper';
 import Order from './Order/Order';
+import OrderHistory from './OrderHistory/OrderHistory';
+import { validatePhone } from '../../../../../build/utils/utils';
 import MainAppComponent from '../../containers/MainAppComponentContainer/MainAppComponentContainer';
+import { orderComplete, addhistory } from '../../../services/products';
 import './Basket.scss';
 
 export default class Basket extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            // showProcess: false,
+            isValid: false,
+            nameErrorText: '',
+            nameIsValid: false,
+            phoneErrorText: '',
+            phoneIsValid: false,
+            addressErrorText: '',
+            addressIsValid: false,
             finished: false,
             stepIndex: 0,
+            openMap: false,
+        }
+    }
+
+    componentWillMount() {
+        fetch('https://ipinfo.io/geo')
+            .then(res => res.json())
+            .then(data => {
+                const [lat, lng] = data.loc.split(',');
+                this.setState({
+                    lat,
+                    lng,
+                });
+            })
+    }
+
+    _check = () => {
+        if(this.state.nameIsValid && this.state.phoneIsValid) {
+            this.setState({
+                isValid: true,
+            })
+        } else {
+            this.setState({
+                isValid: false,
+            })
+        }
+    }
+
+    handleInputChange = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        this.setState({[name]: value});
+        this._check();
+        if(name === 'name') {
+            if(value.length < 2) {
+                this.setState({
+                    nameErrorText: 'invalid name',
+                    nameIsValid: false,
+                })
+                if(value === '') {
+                    this.setState({
+                        nameErrorText: '',
+                        nameIsValid: false,
+                    })
+                }
+            } else {
+                this.setState({
+                    nameErrorText: '',
+                    nameIsValid: true,
+                })
+            }
+        } else if(name === 'phone') {
+            if(!validatePhone(value)) {
+                this.setState({
+                    phoneErrorText: 'invalid phone',
+                    phoneIsValid: false,
+                })
+                if(value === '') {
+                    this.setState({
+                        phoneErrorText: '',
+                        phoneIsValid: false,
+                    })
+                }
+            } else {
+                this.setState({
+                    phoneErrorText: '',
+                    phoneIsValid: true,
+                })
+            }
+        } else if(name === 'address') {
+            if(value.length < 7) {
+                this.setState({
+                    addressErrorText: 'invalid address',
+                    addressIsValid: false,
+                })
+                if(value === '') {
+                    this.setState({
+                        addressErrorText: '',
+                        addressIsValid: false,
+                    })
+                }
+            } else {
+                this.setState({
+                    addressErrorText: '',
+                    addressIsValid: true,
+                })
+            }
         }
     }
 
@@ -18,18 +117,12 @@ export default class Basket extends Component {
         this.forceUpdate();
     }
 
-    // handleProcessClick = () => {
-    //     this.setState({
-    //         showProcess: true,
-    //
-    //     });
-    // }
 
     handleNext = () => {
         const {stepIndex} = this.state;
         this.setState({
             stepIndex: stepIndex + 1,
-            finished: stepIndex >= 2,
+            finished: stepIndex >= 1,
         });
     };
 
@@ -40,16 +133,46 @@ export default class Basket extends Component {
         }
     };
 
-    handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(e);
+    handleOpenMap = () => {
+        this.setState({
+            openMap: true,
+        });
+    }
+
+    handleCloseMap = () => {
+        this.setState({
+            openMap: false,
+        });
+    }
+
+    handleSubmitMap = (address) => {
+        this.setState({
+            address,
+        });
+        this._check();
+        this.handleCloseMap();
+    }
+
+    handleSubmit = async () => {
+        const { login } = this.props.user.user;
+        const orders = JSON.parse(localStorage.getItem(login));
+        const {name, phone, address } = this.state;
+        const result = {
+            name, phone, address, orders,
+        }
+        await orderComplete(result);
+        await addhistory({
+            user: login,
+            orders,
+        });
+        localStorage.removeItem(login);
+        this.forceUpdate();
+        console.log('DONE');
     }
 
     renderStepActions(step) {
         const {stepIndex} = this.state;
-
         return (
-        //   <div style={{margin: '12px 0'}}>
             <div className='wrapper-process'>
                 {step === 0 && (
                     <div
@@ -59,9 +182,9 @@ export default class Basket extends Component {
                 )}
                 {step > 0 && (
                     <button
+                        disabled={!this.state.isValid}
                         onClick={this.handleSubmit}
-                        type='submit'
-                        className='process-order'>Заказать</button>
+                        className={`process-order ${!this.state.isValid && 'blocked'}`}>Заказать</button>
                 )}
                 {step > 0 && (
                     <div
@@ -70,16 +193,6 @@ export default class Basket extends Component {
                     >Назад</div>
                 )}
             </div>
-        //     {step > 0 && (
-        //       <FlatButton
-        //         label="Back"
-        //         disabled={stepIndex === 0}
-        //         disableTouchRipple={true}
-        //         disableFocusRipple={true}
-        //         onClick={this.handlePrev}
-        //       />
-        //     )}
-        //   </div>
         );
     }
 
@@ -107,24 +220,82 @@ export default class Basket extends Component {
                             </StepContent>
                         </Step>
                     </Stepper>
-                    {/* {this.renderProcess()} */}
+                    {/* <OrderHistory user={login} /> */}
                 </div>
             )
         }
         return 'Вы еще ничего не заказали';
+        // <div>
+        // <OrderHistory user={login} />
+        // </div>
+
     }
 
     renderProcess = () => {
         return (
-            <form
-                action='/api/process'
-                method='POST' >
-                <input type="text" className="form-control" name="email"/>
-                <input type='text' name='phone'/>
+            <div className='process'>
+                <TextField
+                    name='name'
+                    errorText={this.state.nameErrorText}
+                    value={this.state.name}
+                    onChange={this.handleInputChange}
+                    hintText="name"
+                    floatingLabelText="name"
+                />
+                <TextField
+                    name='phone'
+                    errorText={this.state.phoneErrorText}
+                    onChange={this.handleInputChange}
+                    value={this.state.phone}
+                    hintText="+375XXXXXXXXX"
+                    floatingLabelText="phone number"
+                />
+                <TextField
+                    name='address'
+                    errorText={this.state.addressErrorText}
+                    onChange={this.handleInputChange}
+                    value={this.state.address}
+                    hintText="address"
+                    floatingLabelText="address"
+                />
+                {window.innerWidth > 860 && <div className='or'>or</div>}
+                {window.innerWidth > 860 && (
+                    <div style={{borderBottom: '1px solid #ddd'}}>
+                        <div className='process-order map' onClick={this.handleOpenMap}>Open Map</div>
+                    </div>
+                )}
+                <Dialog
+                    repositionOnUpdate={ true }
+                    autoDetectWindowHeight={ true }
+                    autoScrollBodyContent={ true }
+                    className="dialog-root"
+                    contentClassName="dialog-content"
+                    bodyClassName="dialog-body"
+                    onRequestClose={ this.handleCloseMap }
+                    modal={ false }
+                    open={ this.state.openMap }
+                >
+                    <div className="dialog-scroll">
+                        <MapWithASearchBox
+                            submitMap={this.handleSubmitMap}
+                            lat={this.state.lat}
+                            lng={this.state.lng} />
+                    </div>
+                </Dialog>
+                {/* <Dialog
+                    title="Dialog With Actions"
+                    // actions={actions}
+                    modal={false}
+                    open={this.state.openMap}
+                    onRequestClose={this.handleCloseMap}
+                >
+                    <div>
+                        <MapWithASearchBox lat={this.state.lat} lng={this.state.lng} />
+                    </div>
+                </Dialog> */}
                 {this.renderStepActions(1)}
-            </form>
+            </div>
         )
-
     }
 
     renderOrders = (orders, login) => {
@@ -139,13 +310,14 @@ export default class Basket extends Component {
 
 
     render() {
-        const { isVerifed } = this.props.user.user;
+        const { isVerifed, login } = this.props.user.user;
         return (
             <MainAppComponent>
                 {!isVerifed && <div className='message'>We send you email. Please verefie your accaunt.</div>}
                 <div className='basket'>
                     {this.visualizeData()}
                 </div>
+                <OrderHistory user={login} />
             </MainAppComponent>
         )
     }

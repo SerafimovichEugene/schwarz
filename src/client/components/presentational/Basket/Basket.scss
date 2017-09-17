@@ -6,6 +6,10 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    .or {
+        color: #807777;
+        font-size: 1.5em;
+    }
     .wrapper-orders {
         width: 90%;
         padding: 20px;
@@ -16,7 +20,15 @@
         align-items: center;
         flex-wrap: wrap;
     }
+    .process {
+        text-align: -webkit-center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        align-items: stretch;
+    }
     .process-order {
+        text-align: center;
         text-decoration: none;
         background: none;
         font-size: inherit;
@@ -31,8 +43,17 @@
         border: 1px solid rgba(71, 193, 55, 0.74);
         color: rgba(71, 193, 55, 0.74);
     }
+    .blocked:hover {
+        border: 1px solid #ddd;
+        color: #9c9494;
+        cursor: not-allowed;
+    }
     .back {
         margin-left: 15px;
+    }
+    .map:hover {
+        border: 1px solid rgba(7, 122, 115, 0.74);
+        color: rgba(7, 122, 115, 0.74);
     }
     .back:hover {
         border: 1px solid rgba(182, 66, 46, 0.85);

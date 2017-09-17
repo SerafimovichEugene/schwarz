@@ -33,7 +33,9 @@ export default class Card extends Component {
             }
         }
         this.props.onOrder(name);
-        this.props.addProductToBasket(login);
+        if(login) {
+            this.props.addProductToBasket(login);
+        }
     }
 
     render() {
