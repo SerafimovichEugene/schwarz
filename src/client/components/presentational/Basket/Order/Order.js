@@ -33,7 +33,7 @@ export default class Order extends Component {
                 <p>{name}</p>
                 <div className='wrap-price'>
                     <p className='price'>{`${price} ${currency}`}</p>
-                    <div onClick={this.handleClick} className='remove'>remove</div>
+                    {!this.props.noRemove && <div onClick={this.handleClick} className='remove'>remove</div>}
                 </div>
             </div>
         )

@@ -1,0 +1,15 @@
+.history {
+    border: 1px solid #ddd;
+    padding: 10px;
+    cursor: pointer;
+}
+.history:hover {
+    color: rgba(90, 162, 32, 0.7);
+    border: 1px solid rgba(90, 162, 32, 0.7);
+}
+
+@media(max-width: 800px) {
+    .history {
+        margin-top: 10px;
+    }
+}

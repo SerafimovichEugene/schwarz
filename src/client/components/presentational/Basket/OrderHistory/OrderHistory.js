@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { getHistories } from '../../../../services/products';
+import { produceHumanReadableDate } from '../../../../../../build/utils/utils';
+import History from './History/History';
 import './OrderHistory.scss';
+
 
 export default class OrderHistory extends Component {
     constructor(props) {
@@ -20,20 +23,29 @@ export default class OrderHistory extends Component {
         }
     }
 
+    handleHistoryClick = (orders) => {
+        console.log(orders);
+    }
+
     renderHistories = () => {
         if(this.state.history) {
-            return this.state.history.map((h, i) => {
-                const t = new Date(h.time);
-                return <div className='time' key={i}>
-                    {`${t.getFullYear()} ${t.getMonth() + 1} ${t.getDate()} ${t.getHours()}: ${t.getMinutes()}`}
-                </div>
+            return this.state.history.map((history, index) => {
+                let date = new Date(history.time);
+                date = produceHumanReadableDate(date);
+                return <History
+                    time={date}
+                    handleHistoryClick={this.handleHistoryClick}
+                    orders={history.orders}
+                    key={index} />
+                // return <div className='time' key={index}>
+                //     {produceHumanReadableDate(date)}
+                // </div>
             })
         }
     }
 
 
     render() {
-        console.log(this.state);
         return (
             <div className='order-history'>
                 {this.renderHistories()}

@@ -134,3 +134,17 @@ export const validatePhone = (phone) => {
     const re = /^(\+375|80)(29|25|44|33)(\d{3})(\d{2})(\d{2})$/;
     return re.test(phone);
 };
+
+export const produceHumanReadableDate = (date) => {
+    const produce = (value) => value > 9 ? value : `0${value}`;
+    const year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    month = produce(month);
+    let day =  date.getDate();
+    day = produce(day);
+    let hours = date.getHours();
+    hours = produce(hours);
+    let minutes = date.getMinutes();
+    minutes = produce(minutes);
+    return `${hours}:${minutes} ${day} ${month} ${year}`;
+};
