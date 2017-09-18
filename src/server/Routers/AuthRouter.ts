@@ -58,6 +58,11 @@ export default class AuthRouter implements AuthRouterInterface {
                 dbuser = await User.findOneAndUpdate(
                     { email: incomeUser.email},
                     { isVerifed: true });
+                req.logIn(dbuser, (err) => {
+                    if (!err) {
+                        console.log('succefuly verefied accaunt');
+                    }
+                });
                 res.redirect('/');
             } catch (error) {
                 console.log(error);
@@ -72,6 +77,7 @@ export default class AuthRouter implements AuthRouterInterface {
             if (req.cookies.fromUrl) {
                    res.redirect(req.cookies.fromUrl);
                } else {
+                   res.clearCookie('failLogin');
                    res.redirect('/');
                }
         };
@@ -86,10 +92,34 @@ export default class AuthRouter implements AuthRouterInterface {
             res.cookie('canFetchUser', true);
             next();
         }, addJWTTokenForAdmin);
-        this.router.post('/signin', authenticate('local-signin', {
-            // successRedirect : '/',
-            failureRedirect : '/signin'
-        }), (req, res, next) => {
+        this.router.post('/signin',
+            (req, res, next) => {
+                authenticate('local-signin', (err, user, info) => {
+                    if (err) {
+                        console.log('error from custom callback');
+                        return next(err);
+                     }
+                    if (!user) {
+                        console.log('no user custom callback', user);
+                        res.cookie('failLogin', true);
+                        res.redirect('/signin');
+                     } else {
+                        req.logIn(user, (err) => {
+                            if (err) {
+                                console.log('okey error  custom cb');
+                                return next(err);
+                            }
+                            console.log('okey custom cb', user);
+                            return next();
+                        });
+                    }
+                })(req, res, next);
+            },
+        //  authenticate('local-signin', {
+        //     // successRedirect : '/',
+        //     failureRedirect : '/signin'
+        // }),
+         (req, res, next) => {
             res.cookie('canFetchUser', true);
             next();
         }, addJWTTokenForAdmin);

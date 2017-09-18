@@ -9,6 +9,15 @@ import propTypes from 'prop-types';
 import { parse } from 'cookie';
 import UserBar from '../../containers/UserBarContainer/UserBarContainer';
 
+
+const rightStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: 'white',
+    letterSpacing: '1px',
+}
+
 export default class AdminPanel extends Component {
 
     constructor(props) {
@@ -36,7 +45,8 @@ export default class AdminPanel extends Component {
         return (
             <div>
                 <AppBar
-                    iconElementRight={ <UserBar/> }
+                    iconStyleRight={rightStyle}
+                    iconElementRight={ (<div>{'Hello Admin'}</div>) }
                     onLeftIconButtonTouchTap={ this.handleMenuTouch }
                 />
                 <Drawer open={ this.state.isDrawerOpen }

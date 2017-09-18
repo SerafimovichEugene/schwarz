@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css?family=Lato');
+footer {
+    border-top: 1px solid #ddd;
+    cursor: default;
+    font-family: 'Lato', sans-serif;
+    font-size: 13px;
+    padding: 7px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(37, 30, 30, 0.09);
+    color: #928c8c;
+    .contacts, .made-by {
+        display: flex;
+    }
+    p {
+        margin: 0 10px 0 10px !important;
+        display: inline-flex;
+    }
+    .made-by a, .contacts a {
+        text-decoration: none;
+        color: #928c8c;
+    }
+    .social-media span, .made-by a {
+        margin: 0 5px 0 5px;
+
+    }
+}
+
+@media(max-width: 600px) {
+    footer {
+        justify-content: center;
+        .made-by {
+            display: none;
+        }
+        .contacts {
+            display: none;
+        }
+    }
+
+}

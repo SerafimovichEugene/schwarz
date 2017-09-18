@@ -2,17 +2,24 @@
     display: none;
 }
 
-header {
+main {
+    min-height: 100%;
     display: flex;
-    flex-direction: row;
-    min-height: 35px;
-    background: rgba(134, 108, 108, 0.57);
-    align-items: center;
-    justify-content: flex-end;
-    .links {
-        display: flex;
-        flex-direction: row;
-        width: 15%;
-        justify-content: space-around;
-    }
+    flex-direction: column;
+    justify-content: space-between;
 }
+
+// header {
+//     display: flex;
+//     flex-direction: row;
+//     min-height: 35px;
+//     background: rgba(134, 108, 108, 0.57);
+//     align-items: center;
+//     justify-content: flex-end;
+//     .links {
+//         display: flex;
+//         flex-direction: row;
+//         width: 15%;
+//         justify-content: space-around;
+//     }
+// }
